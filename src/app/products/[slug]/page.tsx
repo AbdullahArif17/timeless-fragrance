@@ -3,7 +3,6 @@ import { createClient } from '@sanity/client';
 import imageUrlBuilder from '@sanity/image-url';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
-import Link from 'next/link';
 
 // Define TypeScript interface
 interface SanityProduct {
