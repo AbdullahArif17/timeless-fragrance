@@ -1,4 +1,5 @@
-export default {
+// schemas/product.ts
+const product = {
 	name: 'product',
 	title: 'Product',
 	type: 'document',
@@ -23,19 +24,37 @@ export default {
 		name: 'price',
 		title: 'Price',
 		type: 'number',
-		validation: (Rule: any) => Rule.required().min(0),
+		validation: (Rule: any) => Rule.required().positive(),
+	  },
+	  {
+		name: 'productType',
+		title: 'Product Type',
+		type: 'string',
+		options: {
+		  list: [
+			{ title: 'Eau de Parfum', value: 'eau-de-parfum' },
+			{ title: 'Eau de Toilette', value: 'eau-de-toilette' },
+			{ title: 'Perfume Oil', value: 'perfume-oil' },
+		  ],
+		},
+		validation: (Rule: any) => Rule.required(),
+	  },
+	  {
+		name: 'image',
+		title: 'Image',
+		type: 'image',
+		options: {
+		  hotspot: true,
+		},
+		validation: (Rule: any) => Rule.required(),
 	  },
 	  {
 		name: 'description',
 		title: 'Description',
 		type: 'text',
-	  },
-	  {
-		name: 'images',
-		title: 'Images',
-		type: 'array',
-		of: [{ type: 'image' }],
-		validation: (Rule: any) => Rule.required().min(1),
+		validation: (Rule: any) => Rule.max(500),
 	  },
 	],
   };
+  
+  export default product;
