@@ -48,7 +48,7 @@ export default function AboutUs() {
               </h3>
               <p className="text-muted-foreground dark:text-neutral-400">
                 Committed to ethical sourcing and eco-friendly practices, we ensure 
-                luxury never compromises our planet's wellbeing.
+                luxury never compromises our planet&apos;s wellbeing.
               </p>
             </div>
           </div>
