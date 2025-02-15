@@ -2,20 +2,98 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --primary-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 221.2 83.2% 53.3%;
+    --primary: 0 0% 0%; /* Black for light mode */
+    --gold-500: 45 86% 50%; /* Gold color */
+    --gold-300: 45 86% 70%; /* Lighter gold */
+    --gold-600: 45 86% 40%; /* Darker gold */
+  }
+
+  .dark {
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --muted-foreground: 163 163 163; /* Gray text */
+    --ring: 224.3 76.3% 48%;
+    --background: 0 0% 0%; /* Black background */
+    --foreground: 45 86% 50%; /* Gold text */
+    --primary: 45 86% 50%; /* Gold as primary */
+  }
+}
+/* Smooth transitions */
+.card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Hover effects */
+.card:hover .product-image {
+  transform: scale(1.05);
+}
+
+/* Responsive image container */
+.aspect-square {
+  position: relative;
+  overflow: hidden;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--muted));
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--gold-500));
+  border-radius: 4px;
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fade-in 1s ease-out forwards;
+}
+
+/* Smooth transitions */
+.transition-transform {
+  transition: transform 0.3s ease-in-out;
+}
+
+.shadow-xl {
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+/* Smooth image scaling */
+.transition-transform {
+  transition: transform 0.3s ease-in-out;
+}
+
+.group:hover .group-hover\:scale-105 {
+  transform: scale(1.05);
+}
+/* globals.css */
+@media (max-width: 768px) {
+  .aspect-square {
+    aspect-ratio: 1/1;
+  }
+}
+
+.group:hover .group-hover\:scale-105 {
+  transform: scale(1.05);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }

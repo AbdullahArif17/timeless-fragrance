@@ -1,0 +1,115 @@
+'use client';
+
+import { createClient } from '@sanity/client';
+import imageUrlBuilder from '@sanity/image-url';
+import Image from 'next/image';
+import { Button } from '@/components/ui/button';
+
+// Define TypeScript interface
+interface SanityProduct {
+  _id: string;
+  name: string;
+  price?: number;
+  description?: string;
+  productType?: string;
+  image?: string;
+  slug?: {
+    current: string;
+  };
+}
+
+// Sanity client configuration
+const client = createClient({
+  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
+  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || 'production',
+  apiVersion: '2023-05-03',
+  useCdn: true
+});
+
+const builder = imageUrlBuilder(client);
+
+async function getProduct(slug: string): Promise<SanityProduct | null> {
+  const query = `*[_type == "product" && slug.current == $slug][0] {
+    _id,
+    name,
+    price,
+    description,
+    productType,
+    slug,
+    "image": image.asset->url
+  }`;
+  
+  return await client.fetch(query, { slug });
+}
+
+export default async function ProductPage({
+  params,
+}: {
+  params: { slug: string };
+}) {
+  const product = await getProduct(params.slug);
+
+  if (!product) {
+    return <div className="container py-20 text-center">Product not found</div>;
+  }
+
+  return (
+    <section className="py-20">
+      <div className="container grid md:grid-cols-2 gap-12">
+        {/* Product Image */}
+        <div className="aspect-square bg-muted/50 relative overflow-hidden rounded-lg">
+          {product.image && (
+            <Image
+              src={builder.image(product.image).width(1200).height(1200).url()}
+              alt={product.name}
+              fill
+              className="object-cover"
+              sizes="(max-width: 768px) 100vw, 50vw"
+              priority
+            />
+          )}
+        </div>
+
+        {/* Product Details */}
+        <div className="space-y-6">
+          <h1 className="font-heading text-4xl font-bold">{product.name}</h1>
+          
+          <p className="text-2xl font-semibold">
+            ${product.price?.toFixed(2)}
+          </p>
+
+          {product.productType && (
+            <p className="text-muted-foreground capitalize">
+              {product.productType.replace('-', ' ')}
+            </p>
+          )}
+
+          {product.description && (
+            <div className="prose max-w-none">
+              <p>{product.description}</p>
+            </div>
+          )}
+
+          <Button className="w-full md:w-1/2 py-6 text-lg">
+            Add to Cart
+          </Button>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// Generate static paths for SSG
+export async function generateStaticParams() {
+  const query = `*[_type == "product"] {
+    slug {
+      current
+    }
+  }`;
+
+  const products = await client.fetch<SanityProduct[]>(query);
+  
+  return products.map((product) => ({
+    slug: product.slug?.current,
+  }));
+}

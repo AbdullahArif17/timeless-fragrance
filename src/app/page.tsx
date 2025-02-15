@@ -1,101 +1,82 @@
+import { Button } from "@/components/ui/button";
+import { ChevronRight } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <main className="bg-background text-foreground">
+      {/* First Section */}
+      <section className="relative min-h-screen flex items-center">
+        <div className="container relative z-10">
+          <div className="flex flex-col md:flex-row items-center gap-8 md:gap-16">
+            {/* Text Content */}
+            <div className="flex-1 space-y-6">
+              <h1 className="font-heading text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight dark:text-gold-500">
+                Crafted Elegance in Every Drop
+              </h1>
+              <p className="text-lg text-muted-foreground dark:text-neutral-400 max-w-prose">
+                Discover the art of luxury fragrances curated for the discerning
+                individual. Experience timeless scents that define
+                sophistication.
+              </p>
+              <Link href="/products">
+                <Button className="group mt-8 px-8 py-6 text-lg dark:bg-gold-500 dark:text-black dark:hover:bg-gold-600 transition-all">
+                  Explore Collection
+                  <ChevronRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1 dark:text-black" />
+                </Button>
+              </Link>
+            </div>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            {/* Logo Image */}
+            <div
+              className="flex-1 relative max-w-[500px] mx-auto rounded-lg 
+  shadow-xl dark:shadow-gold-500/20 border dark:border-gold-500/30 
+  overflow-hidden hover:transform hover:scale-105 transition-transform duration-300"
+            >
+              <Image
+                src="/logo.jpeg"
+                alt="Luxury perfume logo"
+                width={500}
+                height={600}
+                className="w-full aspect-square h-[600px] object-cover rounded-lg"
+                priority
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+      <section className="relative py-12 md:py-20 dark:bg-black/50">
+        <div className="container">
+          <div
+            className="relative mt-10 aspect-square md:aspect-video rounded-xl overflow-hidden group 
+            border dark:border-gold-500/30"
           >
             <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+              src="/all.jpeg"
+              alt="Perfume collection"
+              fill
+              className="object-fit object-center w-full transition-transform duration-500 group-hover:scale-105"
+              quality={100}
+              sizes="100vw"
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+
+            {/* Centered Shop Now Button */}
+            <div className="absolute inset-0 bg-black/30 dark:bg-black/50 flex items-center justify-center">
+              <Link href="/products" className="z-10">
+                <Button
+                  size="lg"
+                  className="text-base mt-56 md:mt-[500px] md:text-lg bg-background text-foreground hover:bg-primary hover:text-background 
+                  dark:bg-gold-500 dark:text-black dark:hover:bg-gold-600 px-6 py-4 md:px-8 md:py-6"
+                >
+                  Shop Now
+                  <ChevronRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </Button>
+              </Link>
+            </div>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+      </section>
+    </main>
   );
 }
