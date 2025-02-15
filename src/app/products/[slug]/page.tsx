@@ -1,8 +1,9 @@
-
+// app/products/[slug]/page.tsx
 import { createClient } from '@sanity/client';
 import imageUrlBuilder from '@sanity/image-url';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 // Define TypeScript interface
 interface SanityProduct {
@@ -38,14 +39,17 @@ async function getProduct(slug: string): Promise<SanityProduct | null> {
     "image": image.asset->url
   }`;
   
-  return await client.fetch(query, { slug });
+  return client.fetch(query, { slug });
 }
 
-export default async function ProductPage({
-  params,
-}: {
-  params: { slug: string };
-}) {
+// Properly type the component props
+interface PageProps {
+  params: {
+    slug: string;
+  };
+}
+
+export default async function ProductPage({ params }: PageProps) {
   const product = await getProduct(params.slug);
 
   if (!product) {
@@ -55,7 +59,6 @@ export default async function ProductPage({
   return (
     <section className="py-20">
       <div className="container grid md:grid-cols-2 gap-12">
-        {/* Product Image */}
         <div className="aspect-square bg-muted/50 relative overflow-hidden rounded-lg">
           {product.image && (
             <Image
@@ -69,10 +72,8 @@ export default async function ProductPage({
           )}
         </div>
 
-        {/* Product Details */}
         <div className="space-y-6">
           <h1 className="font-heading text-4xl font-bold">{product.name}</h1>
-          
           <p className="text-2xl font-semibold">
             ${product.price?.toFixed(2)}
           </p>
@@ -98,7 +99,7 @@ export default async function ProductPage({
   );
 }
 
-// Generate static paths for SSG
+// Generate static paths
 export async function generateStaticParams() {
   const query = `*[_type == "product"] {
     slug {
@@ -109,6 +110,6 @@ export async function generateStaticParams() {
   const products = await client.fetch<SanityProduct[]>(query);
   
   return products.map((product) => ({
-    slug: product.slug?.current,
+    slug: product.slug?.current || '',
   }));
 }
