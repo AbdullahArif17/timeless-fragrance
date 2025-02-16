@@ -6,7 +6,7 @@ import { Metadata } from 'next';
 import ThemeProvider from '@/components/ThemeProvider';
 import { ReactNode } from 'react';
 
-// Configure main sans font
+// Configure the main sans font (Inter)
 const sans = Inter({
   subsets: ['latin'],
   variable: '--font-sans',
@@ -14,7 +14,7 @@ const sans = Inter({
   display: 'swap',
 });
 
-// Configure display font
+// Configure the display font (Playfair Display)
 const heading = Playfair_Display({
   subsets: ['latin'],
   variable: '--font-heading',
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: {
-  children: ReactNode
+  children: ReactNode;
 }) {
   return (
     <html 

@@ -4,7 +4,7 @@ import imageUrlBuilder from '@sanity/image-url';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 
-// Define TypeScript interface
+// Define TypeScript interface for a product
 interface SanityProduct {
   _id: string;
   name: string;
@@ -27,6 +27,7 @@ const client = createClient({
 
 const builder = imageUrlBuilder(client);
 
+// Function to fetch a product based on its slug
 async function getProduct(slug: string): Promise<SanityProduct | null> {
   const query = `*[_type == "product" && slug.current == $slug][0] {
     _id,
@@ -41,15 +42,17 @@ async function getProduct(slug: string): Promise<SanityProduct | null> {
   return client.fetch(query, { slug });
 }
 
-// Properly type the component props
+// Define the props for the page.
+// To satisfy Next.js’ type constraint, we allow `params` to be either
+// an object or a Promise that resolves to an object.
 interface PageProps {
-  params: {
-    slug: string;
-  };
+  params: { slug: string } | Promise<{ slug: string }>;
 }
 
 export default async function ProductPage({ params }: PageProps) {
-  const product = await getProduct(params.slug);
+  // Await params in case it's a promise (awaiting a plain object is fine)
+  const { slug } = await params;
+  const product = await getProduct(slug);
 
   if (!product) {
     return <div className="container py-20 text-center">Product not found</div>;
@@ -98,7 +101,7 @@ export default async function ProductPage({ params }: PageProps) {
   );
 }
 
-// Generate static paths
+// Generate static paths for dynamic routing
 export async function generateStaticParams() {
   const query = `*[_type == "product"] {
     slug {
