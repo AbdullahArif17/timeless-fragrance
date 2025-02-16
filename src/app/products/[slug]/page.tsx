@@ -4,7 +4,7 @@ import imageUrlBuilder from '@sanity/image-url';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 
-// Define TypeScript interface for a product
+// Define the Sanity product interface
 interface SanityProduct {
   _id: string;
   name: string;
@@ -22,12 +22,11 @@ const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || 'production',
   apiVersion: '2023-05-03',
-  useCdn: true
+  useCdn: true,
 });
 
 const builder = imageUrlBuilder(client);
 
-// Function to fetch a product based on its slug
 async function getProduct(slug: string): Promise<SanityProduct | null> {
   const query = `*[_type == "product" && slug.current == $slug][0] {
     _id,
@@ -38,24 +37,27 @@ async function getProduct(slug: string): Promise<SanityProduct | null> {
     slug,
     "image": image.asset->url
   }`;
-  
   return client.fetch(query, { slug });
 }
 
-// Define the props for the page.
-// To satisfy Next.js’ type constraint, we allow `params` to be either
-// an object or a Promise that resolves to an object.
+// Use the plain object shape for props; Next.js will pass in { params: { slug: string } }
 interface PageProps {
-  params: { slug: string } | Promise<{ slug: string }>;
+  params: { slug: string };
 }
 
 export default async function ProductPage({ params }: PageProps) {
-  // Await params in case it's a promise (awaiting a plain object is fine)
-  const { slug } = await params;
+  // Force params to be treated as a promise so that the type matches the expected constraint.
+  const resolvedParams = Promise.resolve(params);
+  const { slug } = await resolvedParams;
+  
   const product = await getProduct(slug);
 
   if (!product) {
-    return <div className="container py-20 text-center">Product not found</div>;
+    return (
+      <div className="container py-20 text-center">
+        Product not found
+      </div>
+    );
   }
 
   return (
@@ -73,25 +75,21 @@ export default async function ProductPage({ params }: PageProps) {
             />
           )}
         </div>
-
         <div className="space-y-6">
           <h1 className="font-heading text-4xl font-bold">{product.name}</h1>
           <p className="text-2xl font-semibold">
             ${product.price?.toFixed(2)}
           </p>
-
           {product.productType && (
             <p className="text-muted-foreground capitalize">
               {product.productType.replace('-', ' ')}
             </p>
           )}
-
           {product.description && (
             <div className="prose max-w-none">
               <p>{product.description}</p>
             </div>
           )}
-
           <Button className="w-full md:w-1/2 py-6 text-lg">
             Add to Cart
           </Button>
@@ -101,7 +99,7 @@ export default async function ProductPage({ params }: PageProps) {
   );
 }
 
-// Generate static paths for dynamic routing
+// Generate static paths for this dynamic route
 export async function generateStaticParams() {
   const query = `*[_type == "product"] {
     slug {
@@ -110,7 +108,6 @@ export async function generateStaticParams() {
   }`;
 
   const products = await client.fetch<SanityProduct[]>(query);
-  
   return products.map((product) => ({
     slug: product.slug?.current || '',
   }));
