@@ -40,16 +40,14 @@ async function getProduct(slug: string): Promise<SanityProduct | null> {
   return client.fetch(query, { slug });
 }
 
-// Use the plain object shape for props; Next.js will pass in { params: { slug: string } }
+// Declare the props so that `params` is a Promise of the route object.
 interface PageProps {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
 export default async function ProductPage({ params }: PageProps) {
-  // Force params to be treated as a promise so that the type matches the expected constraint.
-  const resolvedParams = Promise.resolve(params);
-  const { slug } = await resolvedParams;
-  
+  // Await the params promise to get the slug.
+  const { slug } = await params;
   const product = await getProduct(slug);
 
   if (!product) {
