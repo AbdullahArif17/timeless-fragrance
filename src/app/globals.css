@@ -27,6 +27,11 @@
     --primary: 45 86% 50%; /* Gold as primary */
   }
 }
+
+:root {
+  --font-sans: 'Inter Variable', sans-serif;
+  --font-heading: 'Playfair Display Variable', serif;
+}
 /* Smooth transitions */
 .card {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
