@@ -1,14 +1,14 @@
 import { Button } from "@/components/ui/button";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, Facebook, Instagram } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
 export default function Home() {
   return (
     <main className="bg-background text-foreground">
-      {/* First Section */}
+      {/* Hero Section */}
       <section className="relative min-h-screen flex items-center">
-        <div className="container relative z-10">
+        <div className="container mx-auto px-4 relative z-10">
           <div className="flex flex-col md:flex-row items-center gap-8 md:gap-16">
             {/* Text Content */}
             <div className="flex-1 space-y-6">
@@ -17,11 +17,10 @@ export default function Home() {
               </h1>
               <p className="text-lg text-muted-foreground dark:text-neutral-400 max-w-prose">
                 Discover the art of luxury fragrances curated for the discerning
-                individual. Experience timeless scents that define
-                sophistication.
+                individual. Experience timeless scents that define sophistication.
               </p>
               <Link href="/products">
-                <Button className="group mt-8 px-8 py-6 text-lg dark:bg-gold-500 dark:text-black dark:hover:bg-gold-600 transition-all">
+                <Button className="group mt-8 px-8 py-6 text-lg dark:bg-gold-500 dark:text-black dark:hover:bg-gold-600 transition-colors">
                   Explore Collection
                   <ChevronRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1 dark:text-black" />
                 </Button>
@@ -46,31 +45,37 @@ export default function Home() {
           </div>
         </div>
       </section>
+     
+      {/* Promotional Section */}
       <section className="relative py-12 md:py-20 dark:bg-black/50">
-  <div className="relative w-full h-[80vh] md:h-[90vh] rounded-xl overflow-hidden group border dark:border-gold-500/30">
-    <Image
-      src="/all.jpeg"
-      alt="Perfume collection"
-      fill
-      className="object-fit object-center transition-transform duration-500 group-hover:scale-105"
-      quality={100}
-      sizes="100vw"
-    />
-    {/* Centered Shop Now Button */}
-    <div className="absolute inset-0 bg-black/30 dark:bg-black/50 flex items-center justify-center">
-      <Link href="/products" className="z-10">
-        <Button
-          size="lg"
-          className="text-base mt-[500px] md:text-lg bg-background text-foreground hover:bg-primary hover:text-background dark:bg-gold-500 dark:text-black dark:hover:bg-gold-600 px-6 py-4 md:px-8 md:py-6 transition-colors"
-        >
-          Shop Now
-          <ChevronRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-        </Button>
-      </Link>
-    </div>
-  </div>
-</section>
+        <div className="relative w-full h-[80vh] md:h-[90vh] rounded-xl overflow-hidden group border dark:border-gold-500/30">
+          <Image
+            src="/all.jpeg"
+            alt="Perfume collection"
+            fill
+            className="object-fit object-center transition-transform duration-500 group-hover:scale-105"
+            quality={100}
+            sizes="100vw"
+          />
+          {/* Centered Overlay */}
+          <div className="absolute inset-0 bg-black/30 dark:bg-black/50 flex flex-col items-center justify-center text-center px-4">
+            <h2 className="mb-6 font-heading text-3xl sm:text-4xl md:text-5xl text-white">
+              New Collections
+            </h2>
+            <Link href="/products" className="z-10">
+              <Button
+                size="lg"
+                className="px-6 py-4 md:px-8 md:py-6 text-base md:text-lg bg-background text-foreground hover:bg-primary hover:text-background dark:bg-gold-500 dark:text-black dark:hover:bg-gold-600 transition-colors"
+              >
+                Shop Now
+                <ChevronRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </section>
 
+     
     </main>
   );
 }

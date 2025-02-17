@@ -90,7 +90,7 @@ export function Navbar() {
         {/* Centered Logo */}
         <div className="absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0 md:flex-1 md:flex md:justify-center">
           <Link href="/" className="flex items-center space-x-2">
-            <span className="font-heading text-lg gap-1 font-bold text-primary dark:text-gold-500 md:text-3xl">
+            <span className="font-heading mr-6 text-lg gap-1 font-bold text-center text-primary dark:text-gold-500 md:text-3xl">
               Timeless Fragrances
             </span>
           </Link>
@@ -128,7 +128,7 @@ export function Navbar() {
 
         {/* Right Section (Desktop) */}
         
-        <div className="flex items-center gap-2 ml-auto md:gap-4 md:flex-1 md:justify-end">
+        <div className="flex gap-1 ml-auto md:gap-4 md:flex-1 md:justify-end">
         
           <Button
             variant="ghost"

@@ -28,19 +28,6 @@ export default defineType({
       validation: (Rule) => Rule.required().positive(),
     }),
     defineField({
-      name: 'productType',
-      title: 'Product Type',
-      type: 'string',
-      options: {
-        list: [
-          { title: 'Eau de Parfum', value: 'eau-de-parfum' },
-          { title: 'Eau de Toilette', value: 'eau-de-toilette' },
-          { title: 'Perfume Oil', value: 'perfume-oil' },
-        ],
-      },
-      validation: (Rule) => Rule.required(),
-    }),
-    defineField({
       name: 'image',
       title: 'Image',
       type: 'image',
