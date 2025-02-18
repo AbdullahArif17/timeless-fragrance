@@ -19,6 +19,7 @@ import {
   ShoppingCart,
   Search,
 } from 'lucide-react';
+import { SearchBar } from './searchBar';
 
 const navLinkClass = cn(
   "text-sm font-medium transition-all",
@@ -129,14 +130,7 @@ export function Navbar() {
         {/* Right Section (Desktop) - Dark mode toggle removed */}
         <div className="flex items-center md:gap-4 md:flex-1 md:justify-end md:ml-8">
           <div className="hidden md:flex items-center gap-4">
-            <div className="relative">
-              <input
-                type="text"
-                placeholder="Search..."
-                className="w-64 rounded-md border border-neutral-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary dark:border-gold-500 dark:focus:ring-gold-500"
-              />
-              <Search className="absolute right-2 top-1/2 -translate-y-1/2 text-neutral-500" />
-            </div>
+            <SearchBar />
           </div>
           <Button variant="ghost" size="icon" className="dark:hover:bg-gold-500/10 dark:text-gold-500">
             <ShoppingCart className="h-5 w-5" />
@@ -177,14 +171,9 @@ export function Navbar() {
             </Link>
             <div className="flex flex-col gap-4 pt-4 border-t dark:border-gold-500/30">
               {/* Mobile Search Bar */}
-              <div className="relative">
-                <input
-                  type="text"
-                  placeholder="Search..."
-                  className="w-full rounded-md border border-neutral-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary dark:border-gold-500 dark:focus:ring-gold-500"
-                />
-                <Search className="absolute right-4 top-1/2 transform -translate-y-1/2 text-neutral-500" />
-              </div>
+              
+                <SearchBar />
+              
               {/* Mobile Dark Mode Toggle */}
               <Button
                 variant="ghost"
