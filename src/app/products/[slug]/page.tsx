@@ -80,7 +80,7 @@ export default async function ProductPage({ params }: PageProps) {
             Rs.{product.price?.toFixed(2)}
           </p>
           {product.description && (
-            <div className="prose max-w-none text-gray-600 dark:prose-dark">
+            <div className="prose max-w-none font-bold text-gray-600 dark:prose-dark">
               <p>{product.description}</p>
             </div>
           )}

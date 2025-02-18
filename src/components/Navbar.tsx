@@ -56,7 +56,7 @@ export function Navbar() {
 
     checkTheme();
     checkMobile();
-    
+
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
@@ -68,7 +68,7 @@ export function Navbar() {
     setIsDarkMode(!isDarkMode);
   };
 
-  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+  const toggleMenu = () => setIsMenuOpen((prev) => !prev);
 
   return (
     <header className={cn(
@@ -88,9 +88,9 @@ export function Navbar() {
         </Button>
 
         {/* Centered Logo */}
-        <div className="absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0 md:flex-1 md:flex md:justify-center">
+        <div className="absolute left-1/2 -translate-x-1/2 md:static md:flex-1 md:flex md:justify-center">
           <Link href="/" className="flex items-center space-x-2">
-            <span className="font-heading mr-6 text-lg gap-1 font-bold text-center text-primary dark:text-gold-500 md:text-3xl">
+            <span className="font-heading text-lg font-bold text-center text-primary dark:text-gold-500 md:text-3xl">
               Timeless Fragrances
             </span>
           </Link>
@@ -126,70 +126,88 @@ export function Navbar() {
           </NavigationMenuList>
         </NavigationMenu>
 
-        {/* Right Section (Desktop) */}
-        
-        <div className="flex gap-1 ml-auto md:gap-4 md:flex-1 md:justify-end">
-        
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={toggleTheme}
-            className="dark:hover:bg-gold-500/10 dark:text-gold-500"
-          >
-            {isDarkMode ? (
-              <Sun className="h-5 w-5 text-foreground dark:text-gold-500" />
-            ) : (
-              <Moon className="h-5 w-5 text-foreground text-black" />
-            )}
-          </Button>
+        {/* Right Section (Desktop) - Dark mode toggle removed */}
+        <div className="flex items-center md:gap-4 md:flex-1 md:justify-end md:ml-8">
           <div className="hidden md:flex items-center gap-4">
             <div className="relative">
               <input
                 type="text"
                 placeholder="Search..."
-                className="rounded-md border border-neutral-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary dark:border-gold-500 dark:focus:ring-gold-500"
+                className="w-64 rounded-md border border-neutral-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary dark:border-gold-500 dark:focus:ring-gold-500"
               />
               <Search className="absolute right-2 top-1/2 -translate-y-1/2 text-neutral-500" />
-            
-        </div>
-        </div>
-            <Button variant="ghost" size="icon" className="dark:hover:bg-gold-500/10 dark:text-gold-500">
-              <ShoppingCart className="h-5 w-5" />
-            </Button>
+            </div>
           </div>
-        
-
-        {/* Mobile Navigation */}
-        {isMenuOpen && (
-          <div className="absolute top-full left-0 w-full bg-background dark:bg-black md:hidden shadow-lg border-t dark:border-gold-500/30">
-            <nav className="container py-4 space-y-2">
-              <Link href="/" className={mobileNavLinkClass} onClick={toggleMenu}>
-                Home
-              </Link>
-              <Link href="/products" className={mobileNavLinkClass} onClick={toggleMenu}>
-                Collection
-              </Link>
-              <Link href="/about-us" className={mobileNavLinkClass} onClick={toggleMenu}>
-                About
-              </Link>
-              <div className="flex flex-col gap-4 pt-4 border-t dark:border-gold-500/30">
-                {/* Mobile Search Bar */}
-                <div className="relative">
-                  <input
-                    type="text"
-                    placeholder="Search..."
-                    className="w-full rounded-md border border-neutral-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary dark:border-gold-500 dark:focus:ring-gold-500"
-                  />
-                  <Search className="absolute right-4 top-1/2 transform -translate-y-1/2 text-neutral-500" />
-                </div>
-               
-              </div>
-            </nav>
-          </div>
-        )}
+          <Button variant="ghost" size="icon" className="dark:hover:bg-gold-500/10 dark:text-gold-500">
+            <ShoppingCart className="h-5 w-5" />
+          </Button>
+          <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => { toggleTheme(); toggleMenu(); }}
+                className="hidden md:block w-full dark:hover:bg-gold-500/10 dark:text-gold-500"
+              >
+                {isDarkMode ? (
+                  <>
+                    <Sun className="h-6 w-6" />
+                    <span className=""></span>
+                  </>
+                ) : (
+                  <>
+                    <Moon className="h-6 w-6" />
+                    <span className=""></span>
+                  </>
+                )}
+              </Button>
+        </div>
       </div>
+
+      {/* Mobile Navigation */}
+      {isMenuOpen && (
+        <div className="absolute top-full left-0 w-full bg-background dark:bg-black shadow-lg border-t dark:border-gold-500/30 md:hidden">
+          <nav className="container py-4 space-y-4">
+            <Link href="/" className={mobileNavLinkClass} onClick={toggleMenu}>
+              Home
+            </Link>
+            <Link href="/products" className={mobileNavLinkClass} onClick={toggleMenu}>
+              Collection
+            </Link>
+            <Link href="/about-us" className={mobileNavLinkClass} onClick={toggleMenu}>
+              About
+            </Link>
+            <div className="flex flex-col gap-4 pt-4 border-t dark:border-gold-500/30">
+              {/* Mobile Search Bar */}
+              <div className="relative">
+                <input
+                  type="text"
+                  placeholder="Search..."
+                  className="w-full rounded-md border border-neutral-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary dark:border-gold-500 dark:focus:ring-gold-500"
+                />
+                <Search className="absolute right-4 top-1/2 transform -translate-y-1/2 text-neutral-500" />
+              </div>
+              {/* Mobile Dark Mode Toggle */}
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => { toggleTheme(); toggleMenu(); }}
+                className="w-full dark:hover:bg-gold-500/10 dark:text-gold-500"
+              >
+                {isDarkMode ? (
+                  <>
+                    <Sun className="h-5 w-5" />
+                    <span className="ml-2">Light Mode</span>
+                  </>
+                ) : (
+                  <>
+                    <Moon className="h-5 w-5" />
+                    <span className="ml-2">Dark Mode</span>
+                  </>
+                )}
+              </Button>
+            </div>
+          </nav>
+        </div>
+      )}
     </header>
   );
 }
-
-
