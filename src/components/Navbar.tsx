@@ -16,8 +16,7 @@ import {
   Sun,
   Menu,
   X,
-  ShoppingCart,
-  Search,
+  ShoppingCart
 } from 'lucide-react';
 import { SearchBar } from './searchBar';
 
