@@ -87,7 +87,7 @@ export function SearchBar() {
                 href={`/products/${product.slug.current}`}
                 onClick={() => setQuery('')}
               >
-                <span className="m-4 font-bold">{product.name}</span>
+                <span className="m-4 font-bold dark:text-white">{product.name}</span>
               </Link>
             </li>
           ))}
