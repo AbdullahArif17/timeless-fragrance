@@ -23,9 +23,11 @@ const client = createClient({
 export default async function SearchPage({
   searchParams,
 }: {
-  searchParams: { query?: string };
+  searchParams: { query?: string } | Promise<{ query?: string }>;
 }) {
-  const query = searchParams.query || '';
+  // Resolve searchParams in case it's a Promise
+  const resolvedSearchParams = await Promise.resolve(searchParams);
+  const query = resolvedSearchParams.query || '';
   let groq: string;
   const params: Record<string, string> = {};
 
