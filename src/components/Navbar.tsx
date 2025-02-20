@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import { useState, useEffect, useRef } from 'react';
 import {
-  ChevronDown,
   Moon,
   Sun,
   Menu,
@@ -113,25 +112,11 @@ export function Navbar() {
               </NavigationMenuLink>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <div className="relative" ref={dropdownRef}>
-                <button className={navLinkClass} onClick={toggleDropdown}>
-                  Collection
-                  <ChevronDown className={`ml-2 h-4 w-4 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} />
-                </button>
-                {isDropdownOpen && (
-                  <div className="absolute left-0 mt-2 w-48 bg-white dark:bg-gray-900 shadow-lg rounded-md p-2 z-50 border border-neutral-300 dark:border-gold-500">
-                    <Link href="/products/men" className="block px-4 py-2 text-sm dark:text-white hover:bg-neutral-100 dark:hover:bg-black/20">
-                      Men's Collection
-                    </Link>
-                    <Link href="/products/women" className="block px-4 py-2 text-sm dark:text-white hover:bg-neutral-100 dark:hover:bg-black/20">
-                      Women's Collection
-                    </Link>
-                    <button onClick={toggleDropdown} className="mt-2 w-full text-left px-4 py-2 text-sm font-medium dark:text-white bg-neutral-100 dark:bg-black/20 hover:bg-neutral-200 dark:hover:bg-black/30 rounded-md">
-                      Close Menu
-                    </button>
-                  </div>
-                )}
-              </div>
+            <NavigationMenuLink asChild>
+                <Link href="/products" className={navLinkClass}>
+                  Collections
+                </Link>
+              </NavigationMenuLink>
             </NavigationMenuItem>
             <NavigationMenuItem>
               <NavigationMenuLink asChild>
