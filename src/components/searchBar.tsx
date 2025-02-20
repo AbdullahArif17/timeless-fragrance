@@ -49,7 +49,7 @@ export function SearchBar() {
   }, []);
 
   useEffect(() => {
-    if (query.length > 1) {
+    if (query.length > 0) {
       const timer = setTimeout(async () => {
         const results = await searchProducts(query);
         setSuggestions(results);
