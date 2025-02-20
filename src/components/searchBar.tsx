@@ -36,6 +36,7 @@ export function SearchBar() {
   const [debounceDelay, setDebounceDelay] = useState(300);
 
   useEffect(() => {
+    // Set debounce delay to 0 for small screens, 300ms for larger screens
     function updateDelay() {
       if (window.innerWidth < 768) {
         setDebounceDelay(0);
@@ -67,8 +68,7 @@ export function SearchBar() {
         placeholder="Search products..."
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        
-        className="w-64 rounded-md border border-neutral-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary dark:border-gold-500 dark:focus:ring-gold-500"
+        className="w-full md:w-64 rounded-md border border-neutral-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary dark:border-gold-500 dark:focus:ring-gold-500"
       />
       <Search className="absolute right-2 top-1/2 -translate-y-1/2 text-neutral-500" />
       {suggestions.length > 0 && (
@@ -76,7 +76,7 @@ export function SearchBar() {
           {suggestions.map((product) => (
             <li
               key={product._id}
-              className="flex items-center hover:bg-neutral-100 dark:hover:bg-black/20"
+              className="flex items-center gap-2 px-2 py-2 hover:bg-neutral-100 dark:hover:bg-black/20"
             >
               {product.image && (
                 <Image
@@ -91,7 +91,7 @@ export function SearchBar() {
                 href={`/products/${product.slug.current}`}
                 onClick={() => setQuery('')}
               >
-                <span className="m-4 font-bold dark:text-white">{product.name}</span>
+                <span className="ml-4 font-bold dark:text-white">{product.name}</span>
               </Link>
             </li>
           ))}

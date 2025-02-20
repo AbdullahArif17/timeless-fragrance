@@ -170,9 +170,7 @@ export function Navbar() {
             </Link>
             <div className="flex flex-col gap-4 pt-4 border-t dark:border-gold-500/30">
               {/* Mobile Search Bar */}
-              
                 <SearchBar />
-              
               {/* Mobile Dark Mode Toggle */}
               <Button
                 variant="ghost"
