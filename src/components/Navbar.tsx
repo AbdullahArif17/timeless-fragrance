@@ -33,7 +33,7 @@ const mobileNavLinkClass = cn(
 export function Navbar() {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [, setIsDropdownOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -65,7 +65,6 @@ export function Navbar() {
   };
 
   const toggleMenu = () => setIsMenuOpen((prev) => !prev);
-  const toggleDropdown = () => setIsDropdownOpen((prev) => !prev);
 
   // Close dropdown when clicking outside
   useEffect(() => {
