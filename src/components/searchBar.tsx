@@ -40,7 +40,6 @@ export function SearchBar() {
   const router = useRouter();
 
   useEffect(() => {
-    // Adjust debounce delay for mobile devices
     function updateDelay() {
       setDebounceDelay(window.innerWidth < 768 ? 0 : 300);
     }
@@ -63,15 +62,12 @@ export function SearchBar() {
 
   const handleSearch = () => {
     if (query.trim()) {
-      router.push(`/search?q=${encodeURIComponent(query)}`);
+      router.push(`/search?query=${encodeURIComponent(query)}`);
     }
   };
 
   return (
-    <div
-      className="relative w-full md:w-64"
-      onClick={() => inputRef.current?.focus()}
-    >
+    <div className="relative w-full md:w-64">
       <input
         ref={inputRef}
         type="text"
@@ -84,7 +80,7 @@ export function SearchBar() {
       <Button
         variant="ghost"
         size="icon"
-        onClick={handleSearch}
+        onClick={handleSearch} // Clicking the search icon works as Enter
         className="absolute right-2 top-1/2 -translate-y-1/2 text-neutral-500 dark:text-gold-500"
       >
         <Search className="h-5 w-5" />
