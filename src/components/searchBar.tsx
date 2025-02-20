@@ -63,6 +63,7 @@ export function SearchBar() {
   const handleSearch = () => {
     if (query.trim()) {
       router.push(`/search?query=${encodeURIComponent(query)}`);
+      setQuery(''); // Clear input after navigation
     }
   };
 
@@ -74,7 +75,9 @@ export function SearchBar() {
         placeholder="Search products..."
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') handleSearch();
+        }}
         className="w-full rounded-md border border-neutral-300 px-3 py-2 pr-10 focus:outline-none focus:ring-2 focus:ring-primary dark:border-gold-500 dark:focus:ring-gold-500"
       />
       <Button
