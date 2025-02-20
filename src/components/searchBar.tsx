@@ -1,10 +1,12 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import { useRouter } from 'next/navigation';
 import { createClient } from '@sanity/client';
 import { Search } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { Button } from '@/components/ui/button';
 
 const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
@@ -35,15 +37,12 @@ export function SearchBar() {
   const [suggestions, setSuggestions] = useState<ProductSuggestion[]>([]);
   const [debounceDelay, setDebounceDelay] = useState(300);
   const inputRef = useRef<HTMLInputElement>(null);
+  const router = useRouter();
 
   useEffect(() => {
-    // Dynamically adjust debounce delay for mobile devices
+    // Adjust debounce delay for mobile devices
     function updateDelay() {
-      if (window.innerWidth < 768) {
-        setDebounceDelay(0);
-      } else {
-        setDebounceDelay(300);
-      }
+      setDebounceDelay(window.innerWidth < 768 ? 0 : 300);
     }
     updateDelay();
     window.addEventListener('resize', updateDelay);
@@ -62,10 +61,16 @@ export function SearchBar() {
     }
   }, [query, debounceDelay]);
 
+  const handleSearch = () => {
+    if (query.trim()) {
+      router.push(`/search?q=${encodeURIComponent(query)}`);
+    }
+  };
+
   return (
     <div
       className="relative w-full md:w-64"
-      onClick={() => inputRef.current?.focus()} // Ensures keyboard opens on mobile
+      onClick={() => inputRef.current?.focus()}
     >
       <input
         ref={inputRef}
@@ -73,10 +78,17 @@ export function SearchBar() {
         placeholder="Search products..."
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        onFocus={() => console.log("Input focused")} // Debugging focus
-        className="w-full rounded-md border border-neutral-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary dark:border-gold-500 dark:focus:ring-gold-500"
+        onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+        className="w-full rounded-md border border-neutral-300 px-3 py-2 pr-10 focus:outline-none focus:ring-2 focus:ring-primary dark:border-gold-500 dark:focus:ring-gold-500"
       />
-      <Search className="absolute right-2 top-1/2 -translate-y-1/2 text-neutral-500" />
+      <Button
+        variant="ghost"
+        size="icon"
+        onClick={handleSearch}
+        className="absolute right-2 top-1/2 -translate-y-1/2 text-neutral-500 dark:text-gold-500"
+      >
+        <Search className="h-5 w-5" />
+      </Button>
       {suggestions.length > 0 && (
         <ul className="absolute top-full left-0 w-full bg-white dark:bg-gray-800 border border-neutral-300 dark:border-gold-500 rounded-md mt-1 max-h-60 overflow-y-auto z-10">
           {suggestions.map((product) => (
@@ -93,10 +105,7 @@ export function SearchBar() {
                   className="object-cover"
                 />
               )}
-              <Link
-                href={`/products/${product.slug.current}`}
-                onClick={() => setQuery('')}
-              >
+              <Link href={`/products/${product.slug.current}`} onClick={() => setQuery('')}>
                 <span className="ml-4 font-bold dark:text-white">{product.name}</span>
               </Link>
             </li>
