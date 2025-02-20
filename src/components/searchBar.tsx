@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
 import { createClient } from '@sanity/client';
 import { Search } from 'lucide-react';
 import Link from 'next/link';
@@ -34,27 +33,32 @@ async function searchProducts(searchTerm: string): Promise<ProductSuggestion[]> 
 export function SearchBar() {
   const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState<ProductSuggestion[]>([]);
-  const router = useRouter();
+  const [debounceDelay, setDebounceDelay] = useState(300);
+
+  useEffect(() => {
+    function updateDelay() {
+      if (window.innerWidth < 768) {
+        setDebounceDelay(0);
+      } else {
+        setDebounceDelay(300);
+      }
+    }
+    updateDelay();
+    window.addEventListener('resize', updateDelay);
+    return () => window.removeEventListener('resize', updateDelay);
+  }, []);
 
   useEffect(() => {
     if (query.length > 1) {
       const timer = setTimeout(async () => {
         const results = await searchProducts(query);
         setSuggestions(results);
-      }, 300);
+      }, debounceDelay);
       return () => clearTimeout(timer);
     } else {
       setSuggestions([]);
     }
-  }, [query]);
-
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      // Navigate to the search page with the query as a URL parameter.
-      router.push(`/search?query=${encodeURIComponent(query)}`);
-    }
-  };
+  }, [query, debounceDelay]);
 
   return (
     <div className="relative">
@@ -63,7 +67,7 @@ export function SearchBar() {
         placeholder="Search products..."
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        onKeyDown={handleKeyDown}
+        
         className="w-64 rounded-md border border-neutral-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary dark:border-gold-500 dark:focus:ring-gold-500"
       />
       <Search className="absolute right-2 top-1/2 -translate-y-1/2 text-neutral-500" />
