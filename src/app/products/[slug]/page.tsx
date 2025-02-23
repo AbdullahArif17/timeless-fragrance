@@ -1,10 +1,6 @@
 // app/products/[slug]/page.tsx
 import { createClient } from '@sanity/client';
 import imageUrlBuilder from '@sanity/image-url';
-import Image from 'next/image';
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
-import { BsWhatsapp } from 'react-icons/bs';
 import ProductDetails from './ProductDetails';
 
 const client = createClient({
