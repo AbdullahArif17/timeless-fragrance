@@ -1,4 +1,3 @@
-// app/products/[slug]/page.tsx
 import { createClient } from '@sanity/client';
 import ProductDetails from './ProductDetails';
 
@@ -21,11 +20,7 @@ async function getProduct(slug: string) {
   return client.fetch(query, { slug });
 }
 
-export default async function ProductPage({
-  params,
-}: {
-  params: { slug: string };
-}) {
+export default async function ProductPage({ params }: { params: { slug: string } }) {
   const { slug } = params;
   const product = await getProduct(slug);
 
