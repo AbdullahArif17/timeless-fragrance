@@ -46,8 +46,15 @@ export default async function ProductPage({ params }: PageProps) {
   );
 }
 
+// Define a type for products used in generateStaticParams
+interface SlugProduct {
+  slug: { current: string };
+}
+
 export async function generateStaticParams() {
   const query = `*[_type == "product"] { slug { current } }`;
-  const products = await client.fetch(query);
-  return products.map((product: { slug: { current: any; }; }) => ({ slug: product.slug?.current || '' }));
+  const products = await client.fetch<SlugProduct[]>(query);
+  return products.map((product) => ({
+    slug: product.slug.current || '',
+  }));
 }

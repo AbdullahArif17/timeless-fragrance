@@ -1,4 +1,3 @@
-// app/products/[slug]/ProductDetails.tsx
 'use client';
 
 import Image from 'next/image';
@@ -9,7 +8,17 @@ import { useCart } from '@/app/cart/CartContext';
 import imageUrlBuilder from '@sanity/image-url';
 import { createClient } from '@sanity/client';
 
-// Sanity Setup
+interface SanityProduct {
+  _id: string;
+  name: string;
+  price?: number;
+  description?: string;
+  image?: string;
+  slug?: {
+    current: string;
+  };
+}
+
 const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || 'production',
@@ -19,7 +28,7 @@ const client = createClient({
 
 const builder = imageUrlBuilder(client);
 
-export default function ProductDetails({ product }: { product: any }) {
+export default function ProductDetails({ product }: { product: SanityProduct }) {
   const { addToCart } = useCart();
 
   const handleAddToCart = () => {
@@ -48,7 +57,6 @@ export default function ProductDetails({ product }: { product: any }) {
             />
           )}
         </div>
-
         {/* Product Details */}
         <div className="flex flex-col justify-center space-y-8">
           <h1 className="font-heading text-4xl md:text-5xl font-bold text-gray-800 dark:text-gold-500">
@@ -67,7 +75,6 @@ export default function ProductDetails({ product }: { product: any }) {
           </Button>
         </div>
       </div>
-
       <div className="mt-24 p-4 flex items-center justify-center gap-2">
         <BsWhatsapp className="h-10 w-10 text-green-500" />
         <p className="font-bold dark:text-white">
