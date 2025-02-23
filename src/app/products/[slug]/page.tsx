@@ -1,6 +1,5 @@
 // app/products/[slug]/page.tsx
 import { createClient } from '@sanity/client';
-import imageUrlBuilder from '@sanity/image-url';
 import ProductDetails from './ProductDetails';
 
 const client = createClient({
