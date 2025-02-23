@@ -1,6 +1,10 @@
 // app/products/[slug]/page.tsx
 import { createClient } from '@sanity/client';
-import { Suspense } from 'react';
+import imageUrlBuilder from '@sanity/image-url';
+import Image from 'next/image';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { BsWhatsapp } from 'react-icons/bs';
 import ProductDetails from './ProductDetails';
 
 const client = createClient({
@@ -9,6 +13,8 @@ const client = createClient({
   apiVersion: '2023-05-03',
   useCdn: true,
 });
+
+const builder = imageUrlBuilder(client);
 
 async function getProduct(slug: string) {
   const query = `*[_type == "product" && slug.current == $slug][0] {
@@ -22,12 +28,7 @@ async function getProduct(slug: string) {
   return client.fetch(query, { slug });
 }
 
-// PageProps Interface
-interface PageProps {
-  params: { slug: string };
-}
-
-export default async function ProductPage({ params }: PageProps) {
+export default async function ProductPage({ params }: { params: { slug: string } }) {
   const { slug } = params;
   const product = await getProduct(slug);
 
@@ -40,21 +41,14 @@ export default async function ProductPage({ params }: PageProps) {
   }
 
   return (
-    <Suspense fallback={<p>Loading product...</p>}>
-      <ProductDetails product={product} />
-    </Suspense>
+    <ProductDetails product={product} />
   );
-}
-
-// Define a type for products used in generateStaticParams
-interface SlugProduct {
-  slug: { current: string };
 }
 
 export async function generateStaticParams() {
   const query = `*[_type == "product"] { slug { current } }`;
-  const products = await client.fetch<SlugProduct[]>(query);
+  const products = await client.fetch<{ slug: { current: string } }[]>(query);
   return products.map((product) => ({
-    slug: product.slug.current || '',
+    slug: product.slug?.current || '',
   }));
 }
