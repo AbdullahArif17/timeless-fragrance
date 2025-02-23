@@ -1,6 +1,17 @@
-// app/products/[slug]/page.tsx
 import { createClient } from '@sanity/client';
 import ProductDetails from './ProductDetails';
+
+// Define the Product interface
+interface Product {
+  _id: string;
+  name: string;
+  price?: number;
+  description?: string;
+  image?: string;
+  slug?: {
+    current: string;
+  };
+}
 
 const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
@@ -9,8 +20,8 @@ const client = createClient({
   useCdn: true,
 });
 
-
-async function getProduct(slug: string) {
+const getProduct = async (slug: string): Promise<Product | null> => {
+  if (!slug) return null;
   const query = `*[_type == "product" && slug.current == $slug][0] {
     _id,
     name,
@@ -20,7 +31,7 @@ async function getProduct(slug: string) {
     "image": image.asset->url
   }`;
   return client.fetch(query, { slug });
-}
+};
 
 export default async function ProductPage({ params }: { params: { slug: string } }) {
   const { slug } = params;
@@ -34,9 +45,7 @@ export default async function ProductPage({ params }: { params: { slug: string }
     );
   }
 
-  return (
-    <ProductDetails product={product} />
-  );
+  return <ProductDetails product={product} />;
 }
 
 export async function generateStaticParams() {
