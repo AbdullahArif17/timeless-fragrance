@@ -6,7 +6,7 @@
 // import { Button } from "@/components/ui/button";
 // import Link from "next/link";
 
-// export default function CheckoutPage() {
+ export default function CheckoutPage() {
 //   const { cart, calculateTotal, clearCart } = useCart();
 //   const [phone, setPhone] = useState("");
 //   const [isProcessing, setIsProcessing] = useState(false);
@@ -107,4 +107,4 @@
 //       </div>
 //     </div>
 //   );
-// }
+}
