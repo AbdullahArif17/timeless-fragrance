@@ -21,15 +21,12 @@ async function getProduct(slug: string) {
   return client.fetch(query, { slug });
 }
 
-// Allow params to be either a plain object or a Promise resolving to that object.
-interface PageProps {
-  params: { slug: string } | Promise<{ slug: string }>;
-}
-
-export default async function ProductPage({ params }: PageProps) {
-  // Resolve params in case it's a Promise.
-  const resolvedParams = await Promise.resolve(params);
-  const { slug } = resolvedParams;
+export default async function ProductPage({
+  params,
+}: {
+  params: { slug: string };
+}) {
+  const { slug } = params;
   const product = await getProduct(slug);
 
   if (!product) {
