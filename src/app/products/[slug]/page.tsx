@@ -20,7 +20,14 @@ async function getProduct(slug: string) {
   return client.fetch(query, { slug });
 }
 
-export default async function ProductPage({ params }: { params: { slug: string } }) {
+// Define the expected props interface for clarity
+interface ProductPageProps {
+  params: {
+    slug: string;
+  };
+}
+
+export default async function ProductPage({ params }: ProductPageProps) {
   const { slug } = params;
   const product = await getProduct(slug);
 
@@ -38,6 +45,7 @@ export default async function ProductPage({ params }: { params: { slug: string }
 export async function generateStaticParams() {
   const query = `*[_type == "product"] { slug { current } }`;
   const products = await client.fetch<{ slug: { current: string } }[]>(query);
+  
   return products.map((product) => ({
     slug: product.slug?.current || '',
   }));
