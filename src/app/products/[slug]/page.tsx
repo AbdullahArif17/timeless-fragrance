@@ -1,17 +1,6 @@
+// app/products/[slug]/page.tsx
 import { createClient } from '@sanity/client';
 import ProductDetails from './ProductDetails';
-
-// Define the Product interface
-interface Product {
-  _id: string;
-  name: string;
-  price?: number;
-  description?: string;
-  image?: string;
-  slug?: {
-    current: string;
-  };
-}
 
 const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
@@ -20,8 +9,7 @@ const client = createClient({
   useCdn: true,
 });
 
-const getProduct = async (slug: string): Promise<Product | null> => {
-  if (!slug) return null;
+async function getProduct(slug: string) {
   const query = `*[_type == "product" && slug.current == $slug][0] {
     _id,
     name,
@@ -31,10 +19,17 @@ const getProduct = async (slug: string): Promise<Product | null> => {
     "image": image.asset->url
   }`;
   return client.fetch(query, { slug });
-};
+}
 
-export default async function ProductPage({ params }: { params: { slug: string } }) {
-  const { slug } = params;
+// Allow params to be either a plain object or a Promise resolving to that object.
+interface PageProps {
+  params: { slug: string } | Promise<{ slug: string }>;
+}
+
+export default async function ProductPage({ params }: PageProps) {
+  // Resolve params in case it's a Promise.
+  const resolvedParams = await Promise.resolve(params);
+  const { slug } = resolvedParams;
   const product = await getProduct(slug);
 
   if (!product) {
