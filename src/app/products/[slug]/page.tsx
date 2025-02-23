@@ -1,14 +1,27 @@
+'use client';
+
+import { useParams } from 'next/navigation';
+import { useState, useEffect } from 'react';
 import { createClient } from '@sanity/client';
 import ProductDetails from './ProductDetails';
 
+interface SanityProduct {
+  _id: string;
+  name: string;
+  price?: number;
+  description?: string;
+  image?: string;
+  slug?: { current: string };
+}
+
 const client = createClient({
-  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
+  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || 'production',
   apiVersion: '2023-05-03',
   useCdn: true,
 });
 
-async function getProduct(slug: string) {
+async function getProduct(slug: string): Promise<SanityProduct | null> {
   const query = `*[_type == "product" && slug.current == $slug][0] {
     _id,
     name,
@@ -17,36 +30,41 @@ async function getProduct(slug: string) {
     slug,
     "image": image.asset->url
   }`;
-  return client.fetch(query, { slug });
+  try {
+    return await client.fetch(query, { slug });
+  } catch (error) {
+    console.error("Error fetching product:", error);
+    return null;
+  }
 }
 
-// Define the expected props interface for clarity
-interface ProductPageProps {
-  params: {
-    slug: string;
-  };
-}
+export default function ProductPage() {
+  const params = useParams();
+  const slug = params?.slug as string;
+  const [product, setProduct] = useState<SanityProduct | null>(null);
+  const [loading, setLoading] = useState(true);
 
-export default async function ProductPage({ params }: ProductPageProps) {
-  const { slug } = params;
-  const product = await getProduct(slug);
+  useEffect(() => {
+    if (!slug) return;
+    getProduct(slug).then((data) => {
+      setProduct(data);
+      setLoading(false);
+    });
+  }, [slug]);
 
-  if (!product) {
+  if (loading)
+    return (
+      <div className="container py-20 text-center">
+        <p className="text-3xl font-bold">Loading...</p>
+      </div>
+    );
+
+  if (!product)
     return (
       <div className="container py-20 text-center">
         <p className="text-xl">Product not found</p>
       </div>
     );
-  }
 
   return <ProductDetails product={product} />;
-}
-
-export async function generateStaticParams() {
-  const query = `*[_type == "product"] { slug { current } }`;
-  const products = await client.fetch<{ slug: { current: string } }[]>(query);
-  
-  return products.map((product) => ({
-    slug: product.slug?.current || '',
-  }));
 }
