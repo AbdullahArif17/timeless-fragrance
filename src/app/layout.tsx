@@ -5,6 +5,7 @@ import Footer from '@/components/Footer';
 import { Metadata } from 'next';
 import ThemeProvider from '@/components/ThemeProvider';
 import { ReactNode } from 'react';
+import { CartProvider } from './cart/CartContext';
 
 // Configure the main sans font (Inter)
 const sans = Inter({
@@ -49,7 +50,9 @@ export default function RootLayout({
           <div className="flex flex-col min-h-screen">
             <Navbar />
             <main className="flex-1">
-              {children}
+            <CartProvider>
+        {children}
+        </CartProvider>
             </main>
             <Footer />
           </div>

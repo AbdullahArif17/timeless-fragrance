@@ -132,9 +132,11 @@ export function Navbar() {
           <div className="hidden md:flex items-center gap-4">
             <SearchBar />
           </div>
+          <Link href={"/cart"}>
           <Button variant="ghost" size="icon" className="dark:hover:bg-gold-500/10 dark:text-gold-500">
             <ShoppingCart className="h-5 w-5" />
           </Button>
+          </Link>
           <Button variant="ghost" size="sm" onClick={toggleTheme} className="hidden md:block dark:hover:bg-gold-500/10 dark:text-gold-500">
             {isDarkMode ? <Sun className="h-6 w-6" /> : <Moon className="h-6 w-6" />}
           </Button>

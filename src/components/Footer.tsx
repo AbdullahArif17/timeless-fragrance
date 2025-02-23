@@ -35,14 +35,14 @@ export default function Footer() {
         </p>
         <div className="mt-4 flex items-center justify-center gap-2">
           <BsWhatsapp className="h-6 w-6 text-green-500" />
-          <a
+          <Link
             href="https://wa.me/923073532413"
             target="_blank"
             rel="noopener noreferrer"
             className="text-sm hover:underline"
           >
             +923073532413
-          </a>
+          </Link>
         </div>
       </div>
     </footer>
