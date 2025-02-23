@@ -10,7 +10,6 @@ const client = createClient({
   useCdn: true,
 });
 
-const builder = imageUrlBuilder(client);
 
 async function getProduct(slug: string) {
   const query = `*[_type == "product" && slug.current == $slug][0] {
