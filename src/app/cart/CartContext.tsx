@@ -1,9 +1,10 @@
-"use client";
+'use client';
 
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 
+// Cart Item interface for a perfume store
 interface CartItem {
-  heading: any;
+  heading: string; // Changed from 'any' to 'string'
   id: string;
   name: string;
   price: number;
