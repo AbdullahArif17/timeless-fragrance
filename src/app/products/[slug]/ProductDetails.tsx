@@ -38,6 +38,7 @@ export default function ProductDetails({ product }: { product: SanityProduct }) 
       price: product.price || 0,
       image: product.image || '',
       quantity: 1,
+      heading: undefined
     });
   };
 

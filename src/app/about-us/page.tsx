@@ -11,7 +11,8 @@ export default function AboutUs() {
             Our Story
           </h1>
           <p className="text-muted-foreground dark:text-gold-500/80 text-lg">
-            Crafting olfactory masterpieces since 1992
+          Welcome to Z&S Fragrance, where luxury meets scent. We specialize in crafting high-quality, unique Fragrances ✨
+          available all over Pakistan 🇵🇰♥️
           </p>
           <Separator className="h-[2px] dark:bg-gold-500/30" />
         </div>

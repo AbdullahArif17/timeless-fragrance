@@ -4,6 +4,7 @@ import Image from "next/image";
 import { urlFor } from "@/sanity/lib/image";
 import { useCart } from "./CartContext";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const CartPage = () => {
   const { cart, updateQuantity, removeFromCart } = useCart();
@@ -92,11 +93,11 @@ const CartPage = () => {
 
           {/* Checkout Button */}
           <div className="flex justify-center">
-            {/* <Link> */}
+            <Link href={"/checkout"}>
             <Button className="px-6 py-3 bg-myDarkOrange text-black dark:text-white text-lg font-semibold rounded-lg shadow-md hover:bg-myLightOrange transition">
               Proceed to Checkout
             </Button>
-            {/* </Link> */}
+            </Link>
           </div>
         </div>
       )}
