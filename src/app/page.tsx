@@ -12,7 +12,7 @@ export default function Home() {
           <div className="flex flex-col md:flex-row items-center gap-8 md:gap-16">
             {/* Text Content */}
             <div className="flex-1 space-y-6">
-              <h1 className="mt-6 font-heading text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight dark:text-gold-500">
+              <h1 className="mt-6 font-heading text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-gold-600">
                 Crafted Elegance in Every Drop
               </h1>
               <p className="text-lg text-muted-foreground dark:text-neutral-400 max-w-prose">
@@ -20,9 +20,9 @@ export default function Home() {
                 individual. Experience timeless scents that define sophistication.
               </p>
               <Link href="/products">
-                <Button className="group mt-8 px-8 py-6 text-lg dark:bg-gold-500 dark:text-black dark:hover:bg-gold-600 transition-colors">
+                <Button className="group mt-8 px-8 py-6 text-lg dark:bg-gold-500 dark:text-black text-gold-500 dark:hover:bg-gold-600 transition-colors">
                   Explore Collection
-                  <ChevronRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1 dark:text-black" />
+                  <ChevronRight className="animate-bounce ml-2 h-4 w-4 transition-transform group-hover:translate-x-1 dark:text-black" />
                 </Button>
               </Link>
             </div>

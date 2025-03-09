@@ -40,8 +40,8 @@ export default async function ProductsPage() {
   }
 
   return (
-    <div className="container mx-auto py-8 px-4">
-      <h1 className="text-2xl font-bold mb-4">Our Products</h1>
+    <div className="container mx-auto py-8 px-4 text-center">
+      <h1 className="text-4xl md:text-5xl text-center font-bold mb-4 bg-gradient-to-r from-primary to-gold-500 dark:text-gold-500 bg-clip-text text-transparent">Our Products</h1>
       {products.length === 0 ? (
         <p>No products found.</p>
       ) : (

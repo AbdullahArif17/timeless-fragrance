@@ -15,7 +15,7 @@ const CartPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-10 px-4">
-      <h1 className="text-4xl font-bold text-center text-primary dark:text-myLightOrange mb-8">
+      <h1 className="text-4xl font-heading font-bold text-center md:text-5xl bg-gradient-to-r from-primary to-gold-500 dark:text-myLightOrange mb-8 bg-clip-text text-transparent">
         Your Cart
       </h1>
 
