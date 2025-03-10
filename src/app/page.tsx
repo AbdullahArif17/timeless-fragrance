@@ -12,7 +12,7 @@ export default function Home() {
           <div className="flex flex-col md:flex-row items-center gap-8 md:gap-16">
             {/* Text Content */}
             <div className="flex-1 space-y-6">
-              <h1 className="mt-6 font-heading text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-gold-600">
+              <h1 className="mt-6 p-2 font-heading text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight bg-white dark:bg-black text-gold-500">
                 Crafted Elegance in Every Drop
               </h1>
               <p className="text-lg text-muted-foreground dark:text-neutral-400 max-w-prose">

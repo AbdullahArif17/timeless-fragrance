@@ -4,27 +4,27 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
+    --background: 0 0% 95%; /* Light gray instead of white */
     --foreground: 222.2 84% 4.9%;
     --primary-foreground: 210 40% 98%;
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
     --ring: 221.2 83.2% 53.3%;
     --primary: 0 0% 0%; /* Black for light mode */
-    --gold-500: 45 86% 50%; /* Gold color */
-    --gold-300: 45 86% 70%; /* Lighter gold */
-    --gold-600: 45 86% 40%; /* Darker gold */
+    --gold-500: 45 86% 50%;
+    --gold-300: 45 86% 70%;
+    --gold-600: 45 86% 40%;
   }
 
   .dark {
     --primary-foreground: 222.2 47.4% 11.2%;
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
-    --muted-foreground: 163 163 163; /* Gray text */
+    --muted-foreground: 163 163 163;
     --ring: 224.3 76.3% 48%;
-    --background: 0 0% 0%; /* Black background */
-    --foreground: 45 86% 50%; /* Gold text */
-    --primary: 45 86% 50%; /* Gold as primary */
+    --background: 0 0% 5%; /* Very dark gray instead of black */
+    --foreground: 45 86% 50%;
+    --primary: 45 86% 50%;
   }
 }
 
