@@ -28,6 +28,23 @@ export default defineType({
       validation: (Rule) => Rule.required().positive(),
     }),
     defineField({
+      name: 'hasDiscount',
+      title: 'Has Discount?',
+      type: 'boolean',
+      initialValue: false,
+    }),
+    defineField({
+      name: 'discountPercent',
+      title: 'Discount Percent',
+      type: 'number',
+      initialValue: 30,
+      hidden: ({ parent }) => !parent?.hasDiscount,
+      validation: (Rule) =>
+        Rule.min(0)
+          .max(100)
+          .warning('Discount should be between 0 and 100'),
+    }),
+    defineField({
       name: 'image',
       title: 'Image',
       type: 'image',

@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import Image from 'next/image';
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
-import { BsWhatsapp } from 'react-icons/bs';
-import { useCart } from '@/app/cart/CartContext';
-import imageUrlBuilder from '@sanity/image-url';
-import { createClient } from '@sanity/client';
+import Image from "next/image";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { BsWhatsapp } from "react-icons/bs";
+import { useCart } from "@/app/cart/CartContext";
+import imageUrlBuilder from "@sanity/image-url";
+import { createClient } from "@sanity/client";
 
 interface SanityProduct {
   _id: string;
@@ -14,31 +14,40 @@ interface SanityProduct {
   price?: number;
   description?: string;
   image?: string;
-  slug?: {
-    current: string;
-  };
+  slug?: { current: string };
+  hasDiscount?: boolean;
+  discountPercent?: number;
 }
 
 const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
-  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || 'production',
-  apiVersion: '2023-05-03',
+  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || "production",
+  apiVersion: "2023-05-03",
   useCdn: true,
 });
 
 const builder = imageUrlBuilder(client);
 
-export default function ProductDetails({ product }: { product: SanityProduct }) {
+export default function ProductDetails({
+  product,
+}: {
+  product: SanityProduct;
+}) {
   const { addToCart } = useCart();
 
   const handleAddToCart = () => {
+    const finalPrice =
+      product.hasDiscount && product.discountPercent
+        ? product.price! * (1 - product.discountPercent / 100)
+        : product.price || 0;
+
     addToCart({
       id: product._id,
       name: product.name,
-      price: product.price || 0,
-      image: product.image || '',
+      price: parseFloat(finalPrice.toFixed(2)), // round to 2 decimal places
+      image: product.image || "",
       quantity: 1,
-      heading: product._id
+      heading: product._id,
     });
   };
 
@@ -63,15 +72,41 @@ export default function ProductDetails({ product }: { product: SanityProduct }) 
           <h1 className="font-heading text-4xl md:text-5xl font-bold text-gray-800 dark:text-gold-500">
             {product.name}
           </h1>
-          <p className="text-2xl font-semibold text-gray-700 dark:text-gray-200">
-            Rs.{product.price?.toFixed(2)}
-          </p>
+          {product.price !== undefined && (
+            <div className="space-y-1">
+              {product.hasDiscount && product.discountPercent ? (
+                <>
+                  <p className="text-sm line-through text-gray-500 dark:text-gray-400">
+                    Rs. {product.price.toFixed(2)}
+                  </p>
+                  <p className="text-3xl font-bold text-green-600 dark:text-green-400">
+                    Rs.{" "}
+                    {(
+                      product.price *
+                      (1 - product.discountPercent / 100)
+                    ).toFixed(2)}
+                  </p>
+                  <span className="inline-block text-sm font-semibold bg-green-100 text-green-800 px-2 py-1 rounded-md dark:bg-green-800 dark:text-white">
+                    {product.discountPercent}% OFF
+                  </span>
+                </>
+              ) : (
+                <p className="text-2xl font-semibold text-gray-700 dark:text-gray-200">
+                  Rs. {product.price.toFixed(2)}
+                </p>
+              )}
+            </div>
+          )}
+
           {product.description && (
             <div className="prose max-w-none font-bold text-gray-600 dark:prose-dark">
               <p>{product.description}</p>
             </div>
           )}
-          <Button onClick={handleAddToCart} className="w-full md:w-1/2 py-4 text-lg font-medium">
+          <Button
+            onClick={handleAddToCart}
+            className="w-full md:w-1/2 py-4 text-lg font-medium"
+          >
             Add to Cart
           </Button>
         </div>

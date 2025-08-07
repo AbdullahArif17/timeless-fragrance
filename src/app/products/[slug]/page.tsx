@@ -12,6 +12,8 @@ interface SanityProduct {
   description?: string;
   image?: string;
   slug?: { current: string };
+  hasDiscount?: boolean;
+  discountPercent?: number;
 }
 
 const client = createClient({
@@ -28,6 +30,8 @@ async function getProduct(slug: string): Promise<SanityProduct | null> {
     price,
     description,
     slug,
+    hasDiscount,
+    discountPercent,
     "image": image.asset->url
   }`;
   try {

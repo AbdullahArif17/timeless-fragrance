@@ -6,52 +6,39 @@ import { Metadata } from 'next';
 import ThemeProvider from '@/components/ThemeProvider';
 import { ReactNode } from 'react';
 import { CartProvider } from './cart/CartContext';
+import Banner from '@/components/Banner'; 
 
-// Configure the main sans font (Inter)
+// Fonts
 const sans = Inter({
   subsets: ['latin'],
   variable: '--font-sans',
-  weight: 'variable', // For variable fonts
+  weight: 'variable',
   display: 'swap',
 });
 
-// Configure the display font (Playfair Display)
 const heading = Playfair_Display({
   subsets: ['latin'],
   variable: '--font-heading',
-  weight: 'variable', // Use 'variable' for variable fonts
+  weight: 'variable',
   display: 'swap',
 });
 
 export const metadata: Metadata = {
-  title: "Z&S Perfume Store",
-  description: "Luxury fragrances collection",
-  keywords: ["perfume", "luxury fragrances", "designer scents"],
+  title: 'Z&S Perfume Store',
+  description: 'Luxury fragrances collection',
+  keywords: ['perfume', 'luxury fragrances', 'designer scents'],
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: ReactNode;
-}) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html 
-      lang="en" 
-      className={`${sans.variable} ${heading.variable}`}
-      suppressHydrationWarning
-    >
+    <html lang="en" className={`${sans.variable} ${heading.variable}`} suppressHydrationWarning>
       <body className="min-h-screen bg-background font-sans antialiased">
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-        >
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <div className="flex flex-col min-h-screen">
+            <Banner /> {/* ✅ Add the banner here */}
             <Navbar />
             <main className="flex-1">
-            <CartProvider>
-        {children}
-        </CartProvider>
+              <CartProvider>{children}</CartProvider>
             </main>
             <Footer />
           </div>

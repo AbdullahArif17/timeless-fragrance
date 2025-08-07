@@ -1,8 +1,14 @@
-import { createClient } from '@sanity/client';
-import Link from 'next/link';
-import Image from 'next/image';
-import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import { createClient } from "@sanity/client";
+import Link from "next/link";
+import Image from "next/image";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
+  CardFooter,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
 interface Product {
   _id: string;
@@ -11,13 +17,15 @@ interface Product {
   price?: number;
   description?: string;
   image?: string;
+  hasDiscount?: boolean;
+  discountPercent?: number;
 }
 
 // Set useCdn to false during development if needed
 const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
-  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || 'production',
-  apiVersion: '2023-05-03',
+  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || "production",
+  apiVersion: "2023-05-03",
   useCdn: false, // change to true in production if desired
 });
 
@@ -28,20 +36,24 @@ export default async function ProductsPage() {
     slug,
     price,
     description,
+    hasDiscount,
+    discountPercent,
     "image": image.asset->url
   }[0...10]`;
   let products: Product[] = [];
 
   try {
     products = await client.fetch<Product[]>(groq);
-    console.log('Fetched products:', products);
+    console.log("Fetched products:", products);
   } catch (error) {
-    console.error('Error fetching products:', error);
+    console.error("Error fetching products:", error);
   }
 
   return (
     <div className="container mx-auto py-8 px-4 text-center">
-      <h1 className="text-4xl md:text-5xl text-center font-bold mb-4 bg-gradient-to-r from-primary to-gold-500 dark:text-gold-500 bg-clip-text text-transparent">Our Products</h1>
+      <h1 className="text-4xl md:text-5xl text-center font-bold mb-4 bg-gradient-to-r from-primary to-gold-500 dark:text-gold-500 bg-clip-text text-transparent">
+        Our Products
+      </h1>
       {products.length === 0 ? (
         <p>No products found.</p>
       ) : (
@@ -74,9 +86,26 @@ export default async function ProductsPage() {
                   </p>
                 )}
                 {product.price !== undefined && (
-                  <p className="mt-4 text-lg font-semibold text-gray-700 dark:text-gray-300">
-                    Rs. {product.price.toFixed(2)}
-                  </p>
+                  <div className="mt-4">
+                    {product.hasDiscount && product.discountPercent ? (
+                      <>
+                        <p className="text-sm line-through text-gray-500 dark:text-gray-400">
+                          Rs. {product.price.toFixed(2)}
+                        </p>
+                        <p className="text-lg font-bold text-green-600 dark:text-green-400">
+                          Rs.{" "}
+                          {(
+                            product.price *
+                            (1 - product.discountPercent / 100)
+                          ).toFixed(2)}
+                        </p>
+                      </>
+                    ) : (
+                      <p className="text-lg font-semibold text-gray-700 dark:text-gray-300">
+                        Rs. {product.price.toFixed(2)}
+                      </p>
+                    )}
+                  </div>
                 )}
               </CardContent>
               <CardFooter className="p-6 pt-0">

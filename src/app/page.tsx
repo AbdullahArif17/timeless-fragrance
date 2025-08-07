@@ -1,9 +1,23 @@
+"use client"
+
 import { Button } from "@/components/ui/button";
 import { ChevronRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 export default function Home() {
+  const [showVideo, setShowVideo] = useState(false);
+
+  useEffect(() => {
+    // Check date: only show video until 14 August (inclusive)
+    const today = new Date();
+    const endDate = new Date("2025-08-14T23:59:59");
+    if (today <= endDate) {
+      setShowVideo(true);
+    }
+  }, []);
+
   return (
     <main className="bg-background text-foreground">
       {/* Hero Section */}
@@ -27,25 +41,36 @@ export default function Home() {
               </Link>
             </div>
 
-            {/* Logo Image */}
+            {/* Video or Logo */}
             <div
               className="flex-1 relative max-w-[500px] mx-auto rounded-lg 
-  shadow-xl dark:shadow-gold-500/20 border dark:border-gold-500/30 
-  overflow-hidden hover:transform hover:scale-105 transition-transform duration-300"
+                shadow-xl dark:shadow-gold-500/20 
+                overflow-hidden hover:transform hover:scale-105 transition-transform duration-300"
             >
-              <Image
-                src="/logo.jpeg"
-                alt="Luxury perfume logo"
-                width={500}
-                height={600}
-                className="w-full aspect-square h-[600px] object-cover rounded-lg"
-                priority
-              />
+              {showVideo ? (
+                <video
+                  src="/promo.mp4" // Make sure this file exists in the /public directory
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  className="w-full h-[600px] rounded-lg"
+                />
+              ) : (
+                <Image
+                  src="/logo.jpeg"
+                  alt="Luxury perfume logo"
+                  width={500}
+                  height={600}
+                  className="w-full aspect-square h-[600px] object-cover rounded-lg"
+                  priority
+                />
+              )}
             </div>
           </div>
         </div>
       </section>
-     
+
       {/* Promotional Section */}
       <section className="relative py-12 md:py-20 dark:bg-black/50">
         <div className="relative w-full h-[80vh] md:h-[90vh] rounded-xl overflow-hidden group border dark:border-gold-500/30">
@@ -74,8 +99,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-     
     </main>
   );
 }
