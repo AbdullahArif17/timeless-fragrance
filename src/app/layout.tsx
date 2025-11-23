@@ -6,7 +6,7 @@ import { Metadata } from 'next';
 import ThemeProvider from '@/components/ThemeProvider';
 import { ReactNode } from 'react';
 import { CartProvider } from './cart/CartContext';
-import Banner from '@/components/Banner'; 
+// import Banner from '@/components/Banner'; 
 
 // Fonts
 const sans = Inter({
