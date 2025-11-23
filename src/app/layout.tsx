@@ -35,7 +35,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body className="min-h-screen bg-background font-sans antialiased">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <div className="flex flex-col min-h-screen">
-            <Banner /> {/* ✅ Add the banner here */}
+            {/* <Banner /> ✅ Add the banner here */}
             <Navbar />
             <main className="flex-1">
               <CartProvider>{children}</CartProvider>
