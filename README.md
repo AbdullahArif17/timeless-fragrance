@@ -1,36 +1,83 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Timeless Fragrance
+
+Timeless Fragrance is a modern, full-stack e-commerce web application designed for selling exquisite perfumes. It features a clean, elegant, and responsive user interface, providing a seamless shopping experience for customers. The backend and product catalog are powered by the Sanity.io headless CMS, allowing for easy content management.
+
+## Features
+
+-   **Dynamic Product Catalog:** Products are fetched dynamically from the Sanity CMS.
+-   **Comprehensive Product Details:** Each product has a dedicated page with detailed descriptions, images, and pricing.
+-   **Shopping Cart:** Users can add, remove, and manage items in their shopping cart.
+-   **User Authentication:** Built-in support for user accounts using NextAuth.js.
+-   **Responsive Design:** The application is fully responsive and optimized for desktop, tablet, and mobile devices.
+-   **Embedded CMS Studio:** Manage products and content directly through an integrated Sanity Studio at the `/studio` route.
+-   **Search Functionality:** Users can easily search for products within the store.
+
+## Tech Stack
+
+-   **Framework:** [Next.js](https://nextjs.org/) (App Router)
+-   **Language:** [TypeScript](https://www.typescriptlang.org/)
+-   **Frontend:** [React](https://reactjs.org/)
+-   **Styling:** [Tailwind CSS](https://tailwindcss.com/)
+-   **Headless CMS:** [Sanity.io](https://www.sanity.io/)
+-   **Authentication:** [NextAuth.js](https://next-auth.js.org/)
+-   **UI Components:** [shadcn/ui](https://ui.shadcn.com/)
 
 ## Getting Started
 
-First, run the development server:
+Follow these instructions to set up and run the project locally.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+### Prerequisites
+
+-   [Node.js](https://nodejs.org/en/) (version 18.x or higher recommended)
+-   [npm](https://www.npmjs.com/), [yarn](https://yarnpkg.com/), or [pnpm](https://pnpm.io/)
+
+### Installation
+
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/AbdullahArif17/timeless-fragrance.git
+    cd timeless-fragrance
+    ```
+
+2.  **Install dependencies:**
+    ```bash
+    npm install
+    ```
+
+### Environment Variables
+
+Create a `.env.local` file in the root of your project and add the following environment variables. You can get these values from your Sanity project settings.
+
+```env
+NEXT_PUBLIC_SANITY_PROJECT_ID="your_sanity_project_id"
+NEXT_PUBLIC_SANITY_DATASET="your_sanity_dataset"
+NEXT_PUBLIC_SANITY_API_VERSION="2024-02-10"
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Running the Application
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1.  **Run the development server:**
+    ```bash
+    npm run dev
+    ```
+    The application will be available at `https://timeless-fragrance.vercel.app/`.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+2.  **Access Sanity Studio:**
+    Navigate to `https://timeless-fragrance.vercel.app/studio` to access the integrated Sanity Studio and manage your project's content.
 
-## Learn More
+## Available Scripts
 
-To learn more about Next.js, take a look at the following resources:
+-   `npm run dev`: Starts the development server with Turbopack.
+-   `npm run build`: Creates a production-ready build of the application.
+-   `npm run start`: Starts the production server.
+-   `npm run lint`: Lints the codebase using Next.js's built-in ESLint configuration.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Deployment
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The easiest way to deploy this Next.js application is by using the [Vercel Platform](https://vercel.com/new).
 
-## Deploy on Vercel
+-   Set up a new project on Vercel and connect your Git repository.
+-   Add your Sanity environment variables to the Vercel project settings.
+-   Vercel will automatically build and deploy your application upon every push to the main branch.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Check out the [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more information.
