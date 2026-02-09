@@ -20,9 +20,7 @@ export default function CheckoutPage() {
 	orderMessage += `Product: ${item.name}\nQuantity: ${item.quantity}\nUnit Price: Rs.${item.price.toFixed(2)}\nSubtotal: Rs.${(item.price * item.quantity).toFixed(2)}\n`;
 	orderMessage += "-------------------------------------\n\n"; // Divider line for clarity
   });
-  orderMessage += `Total: Rs.${totalPrice.toFixed(2)}`;
-  orderMessage += `Total: Rs.${totalPrice.toFixed(2)}`;
-  const encodedMessage = encodeURIComponent(orderMessage);
+  const encodedMessage = encodeURIComponent(orderMessage + `\nTotal: Rs. ${totalPrice.toFixed(2)}`);
   // Replace with your WhatsApp number in international format (without spaces)
   const whatsappURL = `https://wa.me/+923073532413?text=${encodedMessage}`;
 

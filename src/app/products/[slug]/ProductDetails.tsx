@@ -17,6 +17,7 @@ interface SanityProduct {
   slug?: { current: string };
   hasDiscount?: boolean;
   discountPercent?: number;
+  category?: { name: string; slug: string };
 }
 
 const client = createClient({
@@ -69,6 +70,11 @@ export default function ProductDetails({
         </div>
         {/* Product Details */}
         <div className="flex flex-col justify-center space-y-8">
+          {product.category && (
+            <p className="text-sm text-gold-500 font-semibold tracking-wide uppercase mb-2">
+              {product.category.name}
+            </p>
+          )}
           <h1 className="font-heading text-4xl md:text-5xl font-bold text-gray-800 dark:text-gold-500">
             {product.name}
           </h1>

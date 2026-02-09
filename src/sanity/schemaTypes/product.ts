@@ -59,5 +59,11 @@ export default defineType({
       type: 'text',
       validation: (Rule) => Rule.max(500),
     }),
+    defineField({
+      name: 'category',
+      title: 'Category',
+      type: 'reference',
+      to: [{ type: 'category' }],
+    }),
   ],
 });

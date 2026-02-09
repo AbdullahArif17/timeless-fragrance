@@ -3,7 +3,7 @@ import { Separator } from '@/components/ui/separator';
 
 export default function AboutUs() {
   return (
-    <section className="py-20 dark:bg-gradient-to-b dark:from-neutral-950 dark:to-black">
+    <section className="py-20 bg-gray-50 dark:bg-gradient-to-b dark:from-neutral-950 dark:to-black">
       <div className="container max-w-4xl">
         {/* Header Section */}
         <div className="space-y-4 text-center mb-16">
@@ -11,7 +11,7 @@ export default function AboutUs() {
             Our Story
           </h1>
           <p className="text-muted-foreground dark:text-gold-500/80 text-lg">
-          Welcome to Z&S Fragrance, where luxury meets scent. We specialize in crafting high-quality, unique Fragrances ✨
+          Welcome to Timeless Collections, where luxury meets style. We specialize in curating high-quality, unique collections ✨
           available all over Pakistan 🇵🇰♥️
           </p>
           <Separator className="h-[2px] dark:bg-gold-500/30" />
@@ -24,9 +24,9 @@ export default function AboutUs() {
               Heritage of Excellence
             </h2>
             <p className="text-muted-foreground dark:text-neutral-400 leading-relaxed">
-              Founded in the heart of Grasse, France, Parfum embodies generations 
-              of perfumery expertise. Our master perfumers combine traditional 
-              techniques with modern innovation to create scents that transcend time.
+              Founded with a passion for excellence, Timeless Collections embodies generations 
+              of curated luxury. Our experts combine traditional craftsmanship
+              with modern innovation to create collections that transcend time.
             </p>
           </div>
 
@@ -34,16 +34,16 @@ export default function AboutUs() {
 
           {/* Philosophy & Sustainability */}
           <div className="grid md:grid-cols-2 gap-8">
-            <div className="space-y-4 p-6 rounded-xl dark:bg-neutral-900/50 dark:border dark:border-gold-500/20">
+            <div className="space-y-4 p-6 rounded-xl bg-white shadow-sm border border-neutral-200 dark:bg-neutral-900/50 dark:border dark:border-gold-500/20">
               <h3 className="font-heading text-xl font-semibold dark:text-gold-500">
                 Our Philosophy
               </h3>
               <p className="text-muted-foreground dark:text-neutral-400">
-                We believe in creating fragrances that tell stories, evoke emotions, 
+                We believe in creating collections that tell stories, evoke emotions, 
                 and become an intrinsic part of your identity.
               </p>
             </div>
-            <div className="space-y-4 p-6 rounded-xl dark:bg-neutral-900/50 dark:border dark:border-gold-500/20">
+            <div className="space-y-4 p-6 rounded-xl bg-white shadow-sm border border-neutral-200 dark:bg-neutral-900/50 dark:border dark:border-gold-500/20">
               <h3 className="font-heading text-xl font-semibold dark:text-gold-500">
                 Sustainability
               </h3>
@@ -57,12 +57,12 @@ export default function AboutUs() {
           {/* Image Grid */}
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-16">
             {[
-              { src: "/passsionmobile.jpeg", alt: "passion fragrance" },
-              { src: "/magicdreamsmobile.jpeg", alt: "magic fragrance" },
-              { src: "/lovedropmobile.jpeg", alt: "love fragrance" },
-              { src: "/justbeyoumobile.jpeg", alt: "just fragrance" },
-              { src: "/floramobile.jpeg", alt: "flora fragrance" },
-              { src: "/elegantmobile.jpeg", alt: "elegant fragrance" },
+              { src: "/passsionmobile.jpeg", alt: "passion collection" },
+              { src: "/magicdreamsmobile.jpeg", alt: "magic collection" },
+              { src: "/lovedropmobile.jpeg", alt: "love collection" },
+              { src: "/justbeyoumobile.jpeg", alt: "just collection" },
+              { src: "/floramobile.jpeg", alt: "flora collection" },
+              { src: "/elegantmobile.jpeg", alt: "elegant collection" },
             ].map((image, index) => (
               <div 
                 key={index}

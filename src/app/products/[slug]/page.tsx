@@ -14,6 +14,7 @@ interface SanityProduct {
   slug?: { current: string };
   hasDiscount?: boolean;
   discountPercent?: number;
+  category?: { name: string; slug: string };
 }
 
 const client = createClient({
@@ -32,7 +33,8 @@ async function getProduct(slug: string): Promise<SanityProduct | null> {
     slug,
     hasDiscount,
     discountPercent,
-    "image": image.asset->url
+    "image": image.asset->url,
+    category->{name, "slug": slug.current}
   }`;
   try {
     return await client.fetch(query, { slug });

@@ -1,6 +1,6 @@
-# Timeless Fragrance
+# Timeless Collections
 
-Timeless Fragrance is a modern, full-stack e-commerce web application designed for selling exquisite perfumes. It features a clean, elegant, and responsive user interface, providing a seamless shopping experience for customers. The backend and product catalog are powered by the Sanity.io headless CMS, allowing for easy content management.
+Timeless Collections is a modern, full-stack e-commerce web application designed for selling exquisite luxury items. It features a clean, elegant, and responsive user interface, providing a seamless shopping experience for customers. The backend and product catalog are powered by the Sanity.io headless CMS, allowing for easy content management.
 
 ## Features
 
@@ -60,10 +60,10 @@ NEXT_PUBLIC_SANITY_API_VERSION="2024-02-10"
     ```bash
     npm run dev
     ```
-    The application will be available at `https://timeless-fragrance.vercel.app/`.
+    The application will be available at `https://timeless-collections.vercel.app/`.
 
 2.  **Access Sanity Studio:**
-    Navigate to `https://timeless-fragrance.vercel.app/studio` to access the integrated Sanity Studio and manage your project's content.
+    Navigate to `https://timeless-collections.vercel.app/studio` to access the integrated Sanity Studio and manage your project's content.
 
 ## Available Scripts
 

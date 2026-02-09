@@ -78,7 +78,7 @@ export function SearchBar() {
         onKeyDown={(e) => {
           if (e.key === 'Enter') handleSearch();
         }}
-        className="w-full rounded-md border border-neutral-300 px-3 py-2 pr-10 focus:outline-none focus:ring-2 focus:ring-primary dark:border-gold-500 dark:focus:ring-gold-500"
+        className="w-full rounded-full border border-neutral-300 bg-white dark:bg-black px-4 py-2 pr-10 focus:outline-none focus:ring-2 focus:ring-gold-500 dark:border-gold-500 shadow-sm transition-all"
       />
       <Button
         variant="ghost"
@@ -93,7 +93,7 @@ export function SearchBar() {
           {suggestions.map((product) => (
             <li
               key={product._id}
-              className="flex items-center gap-2 px-2 py-2 hover:bg-neutral-100 dark:hover:bg-black/20"
+              className="flex items-center gap-2 px-4 py-3 hover:bg-neutral-100 dark:hover:bg-neutral-800 cursor-pointer transition-colors"
             >
               {product.image && (
                 <Image

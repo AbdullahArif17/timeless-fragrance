@@ -94,8 +94,8 @@ export function Navbar() {
         {/* Centered Logo */}
         <div className="absolute left-1/2 -translate-x-1/2 md:static md:flex-1 md:flex md:justify-center">
           <Link href="/" className="flex items-center space-x-2">
-            <span className="font-heading text-lg font-bold text-center text-primary dark:text-gold-500 md:text-3xl">
-              Timeless Fragrances
+            <span className="font-heading text-xl font-bold text-center text-foreground dark:text-gold-500 md:text-2xl tracking-wide">
+              Timeless Collections
             </span>
           </Link>
         </div>
@@ -163,7 +163,7 @@ export function Navbar() {
           <Link href="/about-us" className={mobileNavLinkClass} onClick={toggleMenu}>
             About
           </Link>
-          <div className="flex flex-col gap-4 pt-4 border-t dark:border-gold-500/30">
+          <div className="flex flex-col gap-4 pt-4 border-t border-neutral-200 dark:border-gold-500/30">
           
             {/* Mobile Dark Mode Toggle */}
             <Button

@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 
-// Cart Item interface for a perfume store
+// Cart Item interface for a luxury store
 interface CartItem {
   heading: string; 
   id: string;

@@ -31,7 +31,7 @@ export default function Footer() {
       </section>
       <div className="max-w-6xl mx-auto px-4 text-center">
         <p className="text-sm">
-          © {new Date().getFullYear()} Z&S Perfume Store. All rights reserved.
+          © {new Date().getFullYear()} Timeless Collections. All rights reserved.
         </p>
         <div className="mt-4 flex items-center justify-center gap-2">
           <BsWhatsapp className="h-6 w-6 text-green-500" />

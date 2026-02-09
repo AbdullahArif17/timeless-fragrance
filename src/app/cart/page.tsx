@@ -15,7 +15,7 @@ const CartPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-10 px-4">
-      <h1 className="text-4xl font-heading font-bold text-center md:text-5xl bg-gradient-to-r from-primary to-gold-500 dark:text-myLightOrange mb-8 bg-clip-text text-transparent">
+      <h1 className="text-4xl font-heading font-bold text-center md:text-5xl bg-gradient-to-r from-primary to-gold-500 dark:text-gold-300 mb-8 bg-clip-text text-transparent">
         Your Cart
       </h1>
 
@@ -94,7 +94,7 @@ const CartPage = () => {
           {/* Checkout Button */}
           <div className="flex justify-center">
             <Link href={"/checkout"}>
-            <Button className="px-6 py-3 bg-myDarkOrange text-black dark:text-white text-lg font-semibold rounded-lg shadow-md hover:bg-myLightOrange transition">
+            <Button className="px-6 py-3 bg-gold-500 text-black dark:text-black text-lg font-semibold rounded-lg shadow-md hover:bg-gold-600 transition">
               Proceed to Checkout
             </Button>
             </Link>

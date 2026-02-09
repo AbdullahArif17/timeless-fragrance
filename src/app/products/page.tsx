@@ -19,6 +19,12 @@ interface Product {
   image?: string;
   hasDiscount?: boolean;
   discountPercent?: number;
+  category?: { name: string; slug: string };
+}
+
+interface Category {
+  name: string;
+  slug: string;
 }
 
 // Set useCdn to false during development if needed
@@ -29,8 +35,15 @@ const client = createClient({
   useCdn: false, // change to true in production if desired
 });
 
-export default async function ProductsPage() {
-  const groq = `*[_type=="product"]{
+export default async function ProductsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ category?: string }>;
+}) {
+  const { category } = await searchParams;
+
+  const productGroq = category
+    ? `*[_type=="product" && category->slug.current == $category]{
     _id,
     name,
     slug,
@@ -38,22 +51,69 @@ export default async function ProductsPage() {
     description,
     hasDiscount,
     discountPercent,
-    "image": image.asset->url
-  }[0...10]`;
+    "image": image.asset->url,
+    category->{name, "slug": slug.current}
+  }`
+    : `*[_type=="product"]{
+    _id,
+    name,
+    slug,
+    price,
+    description,
+    hasDiscount,
+    discountPercent,
+    "image": image.asset->url,
+    category->{name, "slug": slug.current}
+  }`;
+
+  const categoriesGroq = `*[_type=="category"]{name, "slug": slug.current}`;
+
   let products: Product[] = [];
+  let categories: Category[] = [];
 
   try {
-    products = await client.fetch<Product[]>(groq);
+    const [productsData, categoriesData] = await Promise.all([
+      client.fetch<Product[]>(productGroq, category ? { category } : {}),
+      client.fetch<Category[]>(categoriesGroq),
+    ]);
+    products = productsData;
+    categories = categoriesData;
     console.log("Fetched products:", products);
   } catch (error) {
-    console.error("Error fetching products:", error);
+    console.error("Error fetching data:", error);
   }
 
   return (
     <div className="container mx-auto py-8 px-4 text-center">
       <h1 className="text-4xl md:text-5xl text-center font-bold mb-4 bg-gradient-to-r from-primary to-gold-500 dark:text-gold-500 bg-clip-text text-transparent">
-        Our Products
+        Our Collections
       </h1>
+
+      {/* Categories Filter */}
+      <div className="flex flex-wrap justify-center gap-4 mb-8">
+        <Link href="/products">
+          <Button
+            variant={!category ? "default" : "outline"}
+            className={!category ? "bg-gold-500 text-black border-gold-500" : "border-gold-500 text-gold-500 hover:bg-gold-500 hover:text-black"}
+          >
+            All
+          </Button>
+        </Link>
+        {categories.map((cat) => (
+          <Link key={cat.slug} href={`/products?category=${cat.slug}`}>
+            <Button
+              variant={category === cat.slug ? "default" : "outline"}
+              className={
+                 category === cat.slug
+                  ? "bg-gold-500 text-black border-gold-500"
+                  : "border-gold-500 text-gold-500 hover:bg-gold-500 hover:text-black"
+              }
+            >
+              {cat.name}
+            </Button>
+          </Link>
+        ))}
+      </div>
       {products.length === 0 ? (
         <p>No products found.</p>
       ) : (

@@ -27,11 +27,11 @@ export default function Home() {
             {/* Text Content */}
             <div className="flex-1 space-y-6">
               <h1 className="mt-6 p-2 font-heading text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight bg-white dark:bg-black text-gold-500">
-                Crafted Elegance in Every Drop
+                Crafted Elegance for Every Moment
               </h1>
               <p className="text-lg text-muted-foreground dark:text-neutral-400 max-w-prose">
-                Discover the art of luxury fragrances curated for the discerning
-                individual. Experience timeless scents that define sophistication.
+                Discover the art of luxury curated for the discerning
+                individual. Experience timeless pieces that define sophistication.
               </p>
               <Link href="/products">
                 <Button className="group mt-8 px-8 py-6 text-lg dark:bg-gold-500 dark:text-black text-gold-500 dark:hover:bg-gold-600 transition-colors">
@@ -59,7 +59,7 @@ export default function Home() {
               ) : (
                 <Image
                   src="/logo.jpeg"
-                  alt="Luxury perfume logo"
+                  alt="Timeless Collections logo"
                   width={500}
                   height={600}
                   className="w-full aspect-square h-[600px] object-cover rounded-lg"
@@ -76,7 +76,7 @@ export default function Home() {
         <div className="relative w-full h-[80vh] md:h-[90vh] rounded-xl overflow-hidden group border dark:border-gold-500/30">
           <Image
             src="/all.jpeg"
-            alt="Perfume collection"
+            alt="Latest collection"
             fill
             className="object-fit object-center transition-transform duration-500 group-hover:scale-105"
             quality={100}

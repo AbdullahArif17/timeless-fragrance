@@ -6,7 +6,7 @@ import { Metadata } from 'next';
 import ThemeProvider from '@/components/ThemeProvider';
 import { ReactNode } from 'react';
 import { CartProvider } from './cart/CartContext';
-// import Banner from '@/components/Banner'; 
+import Banner from '@/components/Banner'; 
 
 // Fonts
 const sans = Inter({
@@ -24,9 +24,9 @@ const heading = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: 'Z&S Perfume Store',
-  description: 'Luxury fragrances collection',
-  keywords: ['perfume', 'luxury fragrances', 'designer scents'],
+  title: 'Timeless Collections',
+  description: 'Luxury collections for you',
+  keywords: ['luxury collections', 'timeless style', 'premium products', 'fashion', 'accessories'],
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
@@ -34,9 +34,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html lang="en" className={`${sans.variable} ${heading.variable}`} suppressHydrationWarning>
       <body className="min-h-screen bg-background font-sans antialiased">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <div className="flex flex-col min-h-screen">
-            {/* <Banner /> ✅ Add the banner here */}
-            <Navbar />
+            <div className="flex flex-col min-h-screen">
+              <Banner />
+              <Navbar />
             <main className="flex-1">
               <CartProvider>{children}</CartProvider>
             </main>
