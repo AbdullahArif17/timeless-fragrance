@@ -58,11 +58,11 @@ export default function Home() {
                 />
               ) : (
                 <Image
-                  src="/logo.jpeg"
-                  alt="Timeless Collections logo"
+                  src="/zaid logo.jpeg"
+                  alt="Logo"
                   width={500}
                   height={600}
-                  className="w-full aspect-square h-[600px] object-cover rounded-lg"
+                  className="w-full aspect-square h-[600px] object-fit rounded-lg"
                   priority
                 />
               )}

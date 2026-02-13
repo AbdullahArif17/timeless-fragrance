@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useState, useEffect, useRef } from 'react';
 import {
   Moon,
@@ -94,9 +95,14 @@ export function Navbar() {
         {/* Centered Logo */}
         <div className="absolute left-1/2 -translate-x-1/2 md:static md:flex-1 md:flex md:justify-center">
           <Link href="/" className="flex items-center space-x-2">
-            <span className="font-heading text-xl font-bold text-center text-foreground dark:text-gold-500 md:text-2xl tracking-wide">
-              Timeless Collections
-            </span>
+            <Image
+              src="/zaid logo.jpeg"
+              alt="Logo"
+              width={100}
+              height={100}
+              className="h-16 w-auto object-contain md:h-20"
+              priority
+            />
           </Link>
         </div>
 
