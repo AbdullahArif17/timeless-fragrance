@@ -65,6 +65,7 @@ const CartPage = () => {
                       alt={item.name}
                       fill
                       className="object-cover"
+                      unoptimized={Boolean(getItemImageUrl(item.image)?.startsWith('data:'))}
                     />
                   </div>
 

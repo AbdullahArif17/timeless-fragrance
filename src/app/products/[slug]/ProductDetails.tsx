@@ -73,6 +73,7 @@ export default function ProductDetails({
                   className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                   sizes="(max-width: 768px) 100vw, 50vw"
                   priority
+                  unoptimized={Boolean(product.image?.startsWith('data:'))}
                 />
               ) : (
                 <div className="w-full h-full flex items-center justify-center bg-muted">

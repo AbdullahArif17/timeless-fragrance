@@ -119,6 +119,7 @@ export function SearchBar() {
                     alt={product.name}
                     fill
                     className="object-cover"
+                    unoptimized={Boolean(product.image?.startsWith('data:'))}
                   />
                 ) : (
                   <div className="w-full h-full bg-neutral-200 dark:bg-neutral-800" />

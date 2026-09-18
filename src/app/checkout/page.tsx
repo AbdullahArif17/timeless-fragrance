@@ -74,6 +74,7 @@ export default function CheckoutPage() {
                         alt={item.name}
                         fill
                         className="object-cover"
+                        unoptimized={Boolean(item.image?.startsWith('data:'))}
                       />
                     </div>
                   )}

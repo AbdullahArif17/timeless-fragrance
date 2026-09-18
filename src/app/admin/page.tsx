@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -17,6 +17,7 @@ import {
   Search,
   Check,
   X,
+  Upload,
 } from 'lucide-react';
 import { toast } from 'react-toastify';
 
@@ -30,6 +31,54 @@ interface Product {
   has_discount: boolean;
   discount_percent: number | string;
   category_name: string | null;
+}
+
+function processImageFile(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    if (!file.type.startsWith('image/')) {
+      reject(new Error('Please select an image file (PNG, JPG, or WEBP)'));
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const img = document.createElement('img');
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        const MAX_DIM = 1000;
+        let width = img.width;
+        let height = img.height;
+
+        if (width > height) {
+          if (width > MAX_DIM) {
+            height = Math.round((height * MAX_DIM) / width);
+            width = MAX_DIM;
+          }
+        } else {
+          if (height > MAX_DIM) {
+            width = Math.round((width * MAX_DIM) / height);
+            height = MAX_DIM;
+          }
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        if (!ctx) {
+          resolve(event.target?.result as string);
+          return;
+        }
+
+        ctx.drawImage(img, 0, 0, width, height);
+        const dataUrl = canvas.toDataURL('image/webp', 0.85);
+        resolve(dataUrl);
+      };
+      img.onerror = () => reject(new Error('Failed to parse image'));
+      img.src = event.target?.result as string;
+    };
+    reader.onerror = () => reject(new Error('Failed to read file'));
+    reader.readAsDataURL(file);
+  });
 }
 
 export default function AdminPage() {
@@ -55,6 +104,41 @@ export default function AdminPage() {
     category_name: 'Men',
   });
   const [formSubmitting, setFormSubmitting] = useState(false);
+
+  // File Upload State
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [showUrlInput, setShowUrlInput] = useState(false);
+  const [isProcessingImage, setIsProcessingImage] = useState(false);
+
+  async function handleFileSelected(file: File) {
+    setIsProcessingImage(true);
+    try {
+      const dataUrl = await processImageFile(file);
+      setFormData((prev) => ({ ...prev, image: dataUrl }));
+      toast.success('Image uploaded & optimized');
+    } catch (err: unknown) {
+      toast.error(err instanceof Error ? err.message : 'Error processing image');
+    } finally {
+      setIsProcessingImage(false);
+    }
+  }
+
+  function handleFileInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (file) {
+      handleFileSelected(file);
+    }
+  }
+
+  function handleFileDrop(e: React.DragEvent) {
+    e.preventDefault();
+    setIsDragging(false);
+    const file = e.dataTransfer.files?.[0];
+    if (file) {
+      handleFileSelected(file);
+    }
+  }
 
   const fetchProducts = useCallback(async () => {
     setLoadingProducts(true);
@@ -402,6 +486,7 @@ export default function AdminPage() {
                                 alt={product.name}
                                 fill
                                 className="object-cover"
+                                unoptimized={Boolean(product.image?.startsWith('data:'))}
                               />
                             ) : null}
                           </div>
@@ -567,20 +652,112 @@ export default function AdminPage() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground mb-1">
-                    Image URL *
+                  <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground mb-2">
+                    Fragrance Image *
                   </label>
+
+                  {formData.image ? (
+                    <div className="relative p-3.5 rounded-2xl border border-gold-500/40 bg-card flex items-center gap-4 shadow-md">
+                      <div className="relative w-20 h-20 rounded-xl overflow-hidden bg-muted border border-border flex-shrink-0 shadow-sm">
+                        <Image
+                          src={formData.image}
+                          alt="Product preview"
+                          fill
+                          className="object-cover"
+                          unoptimized={formData.image.startsWith('data:')}
+                        />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2">
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-green-500/15 text-green-600 dark:text-green-400 border border-green-500/30">
+                            <Check className="h-3 w-3" /> Image Ready
+                          </span>
+                        </div>
+                        <p className="text-xs text-muted-foreground mt-1 truncate">
+                          {formData.image.startsWith('data:') ? 'Custom file uploaded' : formData.image}
+                        </p>
+                        <div className="flex items-center gap-3 mt-2">
+                          <Button
+                            type="button"
+                            variant="outline"
+                            size="sm"
+                            onClick={() => fileInputRef.current?.click()}
+                            className="h-7 text-xs border-gold-500/40 hover:border-gold-500 hover:text-gold-500 rounded-lg px-2.5"
+                          >
+                            <Upload className="h-3.5 w-3.5 mr-1" />
+                            Upload Another
+                          </Button>
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => setFormData({ ...formData, image: '' })}
+                            className="h-7 text-xs text-destructive hover:bg-destructive/10 rounded-lg px-2"
+                          >
+                            <Trash2 className="h-3.5 w-3.5 mr-1" />
+                            Remove
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <div
+                      onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
+                      onDragLeave={() => setIsDragging(false)}
+                      onDrop={handleFileDrop}
+                      onClick={() => fileInputRef.current?.click()}
+                      className={`border-2 border-dashed rounded-2xl p-6 text-center transition-all duration-200 cursor-pointer ${
+                        isDragging
+                          ? 'border-gold-500 bg-gold-500/10 scale-[1.01]'
+                          : 'border-border/80 hover:border-gold-500/50 bg-background/60 hover:bg-muted/30'
+                      }`}
+                    >
+                      <div className="w-12 h-12 rounded-full bg-gold-500/10 text-gold-500 flex items-center justify-center mx-auto mb-3 border border-gold-500/20">
+                        <Upload className="h-6 w-6" />
+                      </div>
+                      <p className="text-sm font-bold text-foreground">
+                        {isProcessingImage ? 'Optimizing Image...' : 'Click to upload image or drag & drop'}
+                      </p>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        Select any PNG, JPG, or WEBP from your device
+                      </p>
+
+                      <div className="mt-4 pt-3 border-t border-border/40">
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setShowUrlInput(!showUrlInput);
+                          }}
+                          className="text-[11px] text-muted-foreground hover:text-gold-500 underline"
+                        >
+                          {showUrlInput ? 'Hide URL field' : 'Or enter an image URL manually'}
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Hidden native file input */}
                   <input
-                    type="url"
-                    required
-                    placeholder="https://... or /floramobile.jpeg"
-                    value={formData.image}
-                    onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-border bg-background text-sm text-foreground focus:ring-2 focus:ring-gold-500 focus:outline-none"
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/png,image/jpeg,image/webp,image/jpg"
+                    className="hidden"
+                    onChange={handleFileInputChange}
                   />
-                  <p className="text-[11px] text-muted-foreground mt-1">
-                    Use any high-res image link or local image path from /public (e.g. /lovedrop.jpeg).
-                  </p>
+
+                  {/* Optional Manual URL Fallback */}
+                  {showUrlInput && !formData.image && (
+                    <div className="mt-2.5">
+                      <input
+                        type="text"
+                        placeholder="https://... or /floramobile.jpeg"
+                        value={formData.image}
+                        onChange={(e) => setFormData({ ...formData, image: e.target.value })}
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-border bg-background text-sm text-foreground focus:ring-2 focus:ring-gold-500 focus:outline-none"
+                      />
+                    </div>
+                  )}
                 </div>
 
                 <div>
