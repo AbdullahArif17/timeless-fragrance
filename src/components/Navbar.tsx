@@ -68,32 +68,33 @@ export function Navbar() {
     <header className="sticky top-0 z-50 w-full border-b border-border/60 bg-background/80 backdrop-blur-xl dark:border-gold-500/20 dark:bg-black/80 transition-colors">
       <div className="container flex h-18 py-3 items-center justify-between relative max-w-7xl">
         
-        {/* Mobile Menu Button */}
-        <Button
-          variant="ghost"
-          size="icon"
-          aria-label="Toggle Navigation Menu"
-          className="md:hidden rounded-xl text-foreground hover:bg-gold-500/10 hover:text-gold-500"
-          onClick={toggleMenu}
-        >
-          {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-        </Button>
+        {/* Left Section: Mobile Menu Button & Brand Logo */}
+        <div className="flex items-center gap-2 sm:gap-3">
+          {/* Mobile Menu Button */}
+          <Button
+            variant="ghost"
+            size="icon"
+            aria-label="Toggle Navigation Menu"
+            className="md:hidden rounded-xl text-foreground hover:bg-gold-500/10 hover:text-gold-500 flex-shrink-0"
+            onClick={toggleMenu}
+          >
+            {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </Button>
 
-        {/* Brand Logo with Emblem and Gold Typography */}
-        <div className="absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0 md:flex-1 md:flex md:justify-start">
-          <Link href="/" className="flex items-center gap-2.5 sm:gap-3 group">
-            <div className="relative w-9 h-9 sm:w-10 sm:h-10 rounded-full overflow-hidden border border-gold-500/40 group-hover:border-gold-500 shadow-md transition-all duration-300 flex-shrink-0 bg-neutral-900">
+          {/* Brand Logo with Emblem and Gold Typography */}
+          <Link href="/" className="flex items-center gap-2 sm:gap-2.5 group flex-shrink-0">
+            <div className="relative w-8 h-8 sm:w-9 sm:h-9 rounded-full overflow-hidden border border-gold-500/40 group-hover:border-gold-500 shadow-md transition-all duration-300 flex-shrink-0 bg-neutral-900">
               <Image
                 src="/zaid logo.jpeg"
                 alt="Timeless Collections Logo"
                 fill
                 className="object-cover"
-                sizes="40px"
+                sizes="36px"
                 priority
               />
             </div>
-            <span className="font-heading text-lg sm:text-2xl font-bold tracking-wider text-foreground group-hover:text-gold-500 transition-colors whitespace-nowrap">
-              Timeless Collections
+            <span className="font-heading text-base sm:text-xl md:text-2xl font-bold tracking-wider text-foreground group-hover:text-gold-500 transition-colors whitespace-nowrap">
+              Timeless <span className="hidden min-[400px]:inline">Collections</span>
             </span>
           </Link>
         </div>

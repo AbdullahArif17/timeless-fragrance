@@ -11,21 +11,15 @@ export function HeroMedia() {
         className="relative rounded-2xl overflow-hidden bg-card border border-border dark:border-gold-500/30 
           shadow-2xl transition-all duration-500 ease-out group-hover:scale-[1.02] group-hover:shadow-gold-500/10"
       >
-        <div className="relative w-full h-[460px] sm:h-[580px] overflow-hidden bg-neutral-900">
+        <div className="relative w-full aspect-[3/2] overflow-hidden bg-[#f7f5f0] dark:bg-neutral-950">
           <Image
             src="/zaid logo.jpeg"
             alt="Timeless Fragrance Emblem"
             fill
-            className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
+            className="object-contain object-center transition-transform duration-700 ease-out group-hover:scale-105"
             sizes="(max-width: 768px) 100vw, 500px"
             priority
           />
-        </div>
-
-        {/* Glass reflection badge on hero card */}
-        <div className="absolute bottom-4 left-4 right-4 p-3 rounded-xl bg-black/60 backdrop-blur-md border border-white/10 flex items-center justify-between text-white text-xs">
-          <span className="font-semibold tracking-wider text-gold-300">Timeless Signature</span>
-          <span className="text-neutral-300 text-[11px]">Handcrafted 50ml EDP</span>
         </div>
       </div>
     </div>
