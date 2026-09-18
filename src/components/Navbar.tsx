@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { useTheme } from 'next-themes';
 import {
@@ -78,10 +79,20 @@ export function Navbar() {
           {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </Button>
 
-        {/* Brand Logo with Gold Typography */}
+        {/* Brand Logo with Emblem and Gold Typography */}
         <div className="absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0 md:flex-1 md:flex md:justify-start">
-          <Link href="/" className="flex items-center space-x-2 group">
-            <span className="font-heading text-xl sm:text-2xl font-bold tracking-wider text-foreground group-hover:text-gold-500 transition-colors">
+          <Link href="/" className="flex items-center gap-2.5 sm:gap-3 group">
+            <div className="relative w-9 h-9 sm:w-10 sm:h-10 rounded-full overflow-hidden border border-gold-500/40 group-hover:border-gold-500 shadow-md transition-all duration-300 flex-shrink-0 bg-neutral-900">
+              <Image
+                src="/zaid logo.jpeg"
+                alt="Timeless Collections Logo"
+                fill
+                className="object-cover"
+                sizes="40px"
+                priority
+              />
+            </div>
+            <span className="font-heading text-lg sm:text-2xl font-bold tracking-wider text-foreground group-hover:text-gold-500 transition-colors whitespace-nowrap">
               Timeless Collections
             </span>
           </Link>

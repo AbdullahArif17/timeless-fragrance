@@ -1,11 +1,6 @@
-"use client";
-
-import { useState } from "react";
 import Image from "next/image";
 
 export function HeroMedia() {
-  const [hasVideoError, setHasVideoError] = useState(false);
-
   return (
     <div className="relative max-w-[500px] w-full mx-auto group">
       {/* Decorative ambient gold glow background */}
@@ -16,29 +11,19 @@ export function HeroMedia() {
         className="relative rounded-2xl overflow-hidden bg-card border border-border dark:border-gold-500/30 
           shadow-2xl transition-all duration-500 ease-out group-hover:scale-[1.02] group-hover:shadow-gold-500/10"
       >
-        {!hasVideoError ? (
-          <video
-            src="/promo.mp4"
-            autoPlay
-            muted
-            loop
-            playsInline
-            onError={() => setHasVideoError(true)}
-            className="w-full h-[460px] sm:h-[580px] object-cover rounded-2xl"
-          />
-        ) : (
+        <div className="relative w-full h-[460px] sm:h-[580px] overflow-hidden bg-neutral-900">
           <Image
             src="/zaid logo.jpeg"
             alt="Timeless Fragrance Emblem"
-            width={500}
-            height={600}
-            className="w-full aspect-square h-[460px] sm:h-[580px] object-cover rounded-2xl"
+            fill
+            className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
+            sizes="(max-width: 768px) 100vw, 500px"
             priority
           />
-        )}
+        </div>
 
-        {/* Glass reflection badge on video */}
-        <div className="absolute bottom-4 left-4 right-4 p-3 rounded-xl bg-black/40 backdrop-blur-md border border-white/10 flex items-center justify-between text-white text-xs">
+        {/* Glass reflection badge on hero card */}
+        <div className="absolute bottom-4 left-4 right-4 p-3 rounded-xl bg-black/60 backdrop-blur-md border border-white/10 flex items-center justify-between text-white text-xs">
           <span className="font-semibold tracking-wider text-gold-300">Timeless Signature</span>
           <span className="text-neutral-300 text-[11px]">Handcrafted 50ml EDP</span>
         </div>

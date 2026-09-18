@@ -6,7 +6,6 @@ import { Metadata } from 'next';
 import ThemeProvider from '@/components/ThemeProvider';
 import { ReactNode } from 'react';
 import { CartProvider } from './cart/CartContext';
-import Banner from '@/components/Banner'; 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -38,7 +37,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <CartProvider>
             <div className="flex flex-col min-h-screen">
-              <Banner />
               <Navbar />
               <main className="flex-1">
                 {children}
