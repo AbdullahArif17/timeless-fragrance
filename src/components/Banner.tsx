@@ -10,7 +10,7 @@ export default function Banner() {
         </span>
         <span className="text-neutral-500">•</span>
         <span className="text-neutral-200">
-          Free Delivery Across Pakistan On All Luxury Collections
+          Premium Fragrances Crafted For Elegance
         </span>
         <Sparkles className="h-4 w-4 text-gold-400 animate-spin hidden sm:inline" style={{ animationDuration: '6s' }} />
       </div>

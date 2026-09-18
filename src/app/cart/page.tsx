@@ -126,15 +126,7 @@ const CartPage = () => {
 
             {/* Total Price Section */}
             <div className="p-6 rounded-2xl bg-card border border-border/80 dark:border-gold-500/20 space-y-4">
-              <div className="flex justify-between items-center text-sm text-muted-foreground">
-                <span>Shipping within Pakistan</span>
-                <span className="text-green-600 dark:text-green-400 font-semibold">FREE</span>
-              </div>
-              <div className="flex justify-between items-center text-sm text-muted-foreground">
-                <span>Payment Method</span>
-                <span className="font-medium text-foreground">Cash On Delivery</span>
-              </div>
-              <div className="border-t border-border/80 pt-4 flex justify-between items-center">
+              <div className="flex justify-between items-center">
                 <span className="text-lg font-bold text-foreground">Total Amount</span>
                 <span className="text-2xl sm:text-3xl font-bold text-gold-500">
                   Rs. {total.toFixed(2)}

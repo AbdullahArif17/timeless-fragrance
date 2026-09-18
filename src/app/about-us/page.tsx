@@ -82,7 +82,7 @@ export default function AboutUs() {
               <Heart className="h-8 w-8 text-gold-500 mb-4" />
               <h3 className="font-heading text-xl font-bold text-foreground mb-2">Customer Devotion</h3>
               <p className="text-sm text-muted-foreground leading-relaxed font-light">
-                Personalized customer support, prompt cash-on-delivery service, and total satisfaction commitment.
+                Personalized customer support, premium service experience, and total satisfaction commitment.
               </p>
             </div>
           </div>

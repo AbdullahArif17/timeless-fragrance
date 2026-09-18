@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ChevronRight, Sparkles, ShieldCheck, Truck, Clock } from "lucide-react";
+import { ChevronRight, Sparkles, ShieldCheck, Clock, Award } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { HeroMedia } from "@/components/HeroMedia";
@@ -48,9 +48,9 @@ export default function Home() {
               {/* Trust Badges */}
               <div className="pt-8 grid grid-cols-3 gap-4 border-t border-border/60 max-w-lg mx-auto lg:mx-0">
                 <div className="flex flex-col items-center lg:items-start text-center lg:text-left">
-                  <Truck className="h-5 w-5 text-gold-500 mb-1" />
-                  <span className="text-xs font-bold text-foreground">Cash On Delivery</span>
-                  <span className="text-[11px] text-muted-foreground">All Pakistan</span>
+                  <Award className="h-5 w-5 text-gold-500 mb-1" />
+                  <span className="text-xs font-bold text-foreground">Artisanal Scents</span>
+                  <span className="text-[11px] text-muted-foreground">Master Blends</span>
                 </div>
                 <div className="flex flex-col items-center lg:items-start text-center lg:text-left">
                   <Clock className="h-5 w-5 text-gold-500 mb-1" />

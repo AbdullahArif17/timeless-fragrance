@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { BsWhatsapp } from "react-icons/bs";
-import { ShoppingCart, Sparkles, ShieldCheck, Truck } from "lucide-react";
+import { ShoppingCart, Sparkles, ShieldCheck, Award } from "lucide-react";
 import { useCart } from "@/app/cart/CartContext";
 import { SOCIAL_LINKS } from "@/lib/constants";
 
@@ -92,31 +92,30 @@ export default function ProductDetails({
           {/* Product Details & Actions */}
           <div className="flex flex-col justify-center space-y-6">
             <div>
-              {product.category && (
-                <span className="inline-block px-3 py-1 rounded-full text-xs font-semibold tracking-widest uppercase bg-gold-500/10 text-gold-600 dark:text-gold-400 border border-gold-500/20 mb-3">
-                  {product.category.name} Collection
+              {product.category?.name && (
+                <span className="inline-block px-3 py-1 rounded-full text-xs font-semibold tracking-wider uppercase bg-gold-500/10 text-gold-500 border border-gold-500/20 mb-3">
+                  {product.category.name}
                 </span>
               )}
-
               <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl font-bold text-foreground tracking-tight">
                 {product.name}
               </h1>
             </div>
 
             {/* Price section */}
-            {product.price !== undefined && (
-              <div className="p-4 rounded-xl bg-card/60 border border-border/60 dark:border-gold-500/20">
-                <div className="flex items-baseline gap-3 flex-wrap">
-                  <span className="text-3xl sm:text-4xl font-bold text-foreground">
+            {product.price && (
+              <div className="p-4 rounded-xl bg-muted/40 border border-border/60">
+                <div className="flex items-baseline gap-3">
+                  <span className="font-heading text-3xl sm:text-4xl font-extrabold text-gold-500">
                     Rs. {finalPrice}
                   </span>
                   {product.hasDiscount && product.discountPercent ? (
-                    <span className="text-lg line-through text-muted-foreground font-normal">
+                    <span className="text-base line-through text-muted-foreground">
                       Rs. {product.price.toFixed(2)}
                     </span>
                   ) : null}
                 </div>
-                <p className="text-xs text-muted-foreground mt-1">Inclusive of all taxes. Free express shipping included.</p>
+                <p className="text-xs text-muted-foreground mt-1">Inclusive of all taxes.</p>
               </div>
             )}
 
@@ -161,9 +160,9 @@ export default function ProductDetails({
             {/* Feature Guarantees */}
             <div className="grid grid-cols-3 gap-3 pt-6 border-t border-border/70 text-center">
               <div className="p-3 rounded-lg bg-card/40 border border-border/40">
-                <Truck className="h-4 w-4 mx-auto text-gold-500 mb-1" />
-                <p className="text-xs font-semibold text-foreground">Cash On Delivery</p>
-                <p className="text-[10px] text-muted-foreground">All Pakistan</p>
+                <Award className="h-4 w-4 mx-auto text-gold-500 mb-1" />
+                <p className="text-xs font-semibold text-foreground">Artisanal Blends</p>
+                <p className="text-[10px] text-muted-foreground">Master Formula</p>
               </div>
               <div className="p-3 rounded-lg bg-card/40 border border-border/40">
                 <Sparkles className="h-4 w-4 mx-auto text-gold-500 mb-1" />

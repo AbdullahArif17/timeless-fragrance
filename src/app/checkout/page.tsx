@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
 import { BsWhatsapp } from "react-icons/bs";
-import { ShieldCheck, Truck, ArrowLeft, CheckCircle2 } from "lucide-react";
+import { ShieldCheck, ArrowLeft, CheckCircle2 } from "lucide-react";
 import { WHATSAPP_NUMBER } from "@/lib/constants";
 
 export default function CheckoutPage() {
@@ -22,7 +22,7 @@ export default function CheckoutPage() {
   cart.forEach((item, index) => {
     orderMessage += `${index + 1}. ${item.name}\n   Qty: ${item.quantity} | Price: Rs. ${item.price.toFixed(2)} | Subtotal: Rs. ${(item.price * item.quantity).toFixed(2)}\n`;
   });
-  orderMessage += `\n-------------------------------------\nGrand Total: Rs. ${totalPrice.toFixed(2)}\nPayment Mode: Cash On Delivery (Free Shipping)\n-------------------------------------\nPlease confirm delivery address & delivery time.`;
+  orderMessage += `\n-------------------------------------\nGrand Total: Rs. ${totalPrice.toFixed(2)}\n-------------------------------------\nPlease confirm order details.`;
 
   const encodedMessage = encodeURIComponent(orderMessage);
   const cleanNumber = WHATSAPP_NUMBER.replace(/[^0-9]/g, "");
@@ -39,7 +39,7 @@ export default function CheckoutPage() {
           Complete Your <span className="text-gold-gradient">Order</span>
         </h1>
         <p className="text-sm text-muted-foreground mt-1">
-          Review your order details below and connect with us on WhatsApp for fast COD confirmation.
+          Review your order details below and connect with us on WhatsApp to confirm your order.
         </p>
       </div>
 
@@ -101,7 +101,7 @@ export default function CheckoutPage() {
                 <span>How WhatsApp Checkout Works</span>
               </div>
               <p>
-                Clicking the button will open WhatsApp with your order items pre-formatted. Simply send the message and share your delivery address with our representative.
+                Clicking the button will open WhatsApp with your order items pre-formatted. Simply send the message and confirm your order with our representative.
               </p>
             </div>
           </div>
@@ -115,10 +115,6 @@ export default function CheckoutPage() {
                 <div className="flex justify-between text-muted-foreground">
                   <span>Subtotal</span>
                   <span>Rs. {totalPrice.toFixed(2)}</span>
-                </div>
-                <div className="flex justify-between text-muted-foreground">
-                  <span>Estimated Delivery</span>
-                  <span className="text-green-600 dark:text-green-400 font-semibold">FREE (COD)</span>
                 </div>
                 <div className="border-t border-border pt-3 flex justify-between font-bold text-lg text-foreground">
                   <span>Total Payable</span>
@@ -140,8 +136,8 @@ export default function CheckoutPage() {
 
               <div className="pt-2 flex items-center justify-between text-xs text-muted-foreground">
                 <span className="flex items-center gap-1">
-                  <Truck className="h-3.5 w-3.5 text-gold-500" />
-                  Free COD Pakistan
+                  <ShieldCheck className="h-3.5 w-3.5 text-gold-500" />
+                  Trusted Store
                 </span>
                 <span className="flex items-center gap-1">
                   <ShieldCheck className="h-3.5 w-3.5 text-gold-500" />

@@ -26,8 +26,8 @@ const heading = Playfair_Display({
 
 export const metadata: Metadata = {
   title: 'Timeless Collections | Luxury Fragrances & Artisanal Perfumes',
-  description: 'Curated luxury fragrances, long-lasting artisanal perfume oils, and exquisite collections available all across Pakistan with Cash on Delivery.',
-  keywords: ['luxury fragrances', 'timeless collections', 'perfumes pakistan', 'artisanal perfumes', 'luxury scents', 'cash on delivery perfumes'],
+  description: 'Curated luxury fragrances, long-lasting artisanal perfume oils, and exquisite collections available across Pakistan.',
+  keywords: ['luxury fragrances', 'timeless collections', 'perfumes pakistan', 'artisanal perfumes', 'luxury scents', 'premium perfumes'],
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
