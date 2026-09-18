@@ -1,16 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { updateProduct, deleteProduct } from '@/lib/products';
-
-function checkAuth(request: NextRequest): boolean {
-  const session = request.cookies.get('admin_session')?.value;
-  return session === 'authenticated_sufi1234';
-}
+import { verifyAdminSession } from '@/lib/auth';
 
 export async function PUT(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  if (!checkAuth(request)) {
+  if (!verifyAdminSession(request)) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
@@ -40,7 +36,7 @@ export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  if (!checkAuth(request)) {
+  if (!verifyAdminSession(request)) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 

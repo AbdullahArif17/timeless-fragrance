@@ -1,0 +1,18 @@
+# Vercel Ignore File
+# Prevents sensitive and unnecessary local files from being uploaded to Vercel
+
+.git
+.github
+.agents
+.gemini
+README.md
+*.md
+.env*
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*

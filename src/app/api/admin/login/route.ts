@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { ADMIN_SESSION_COOKIE, getExpectedSessionToken } from '@/lib/auth';
 
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'sufi1234';
 
@@ -15,7 +16,7 @@ export async function POST(request: NextRequest) {
 
     const response = NextResponse.json({ success: true, message: 'Authenticated successfully' });
 
-    response.cookies.set('admin_session', 'authenticated_sufi1234', {
+    response.cookies.set(ADMIN_SESSION_COOKIE, getExpectedSessionToken(), {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',

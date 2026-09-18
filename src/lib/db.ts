@@ -1,10 +1,26 @@
-import { neon } from '@neondatabase/serverless';
+import { neon, NeonQueryFunction } from '@neondatabase/serverless';
 
-const connectionString =
-  process.env.DATABASE_URL ||
-  "postgresql://neondb_owner:npg_VqyTN60HPmhg@ep-wild-rice-ar3ofl11-pooler.c-4.us-west-2.aws.neon.tech/neondb?sslmode=require";
+let sqlClient: NeonQueryFunction<false, false> | null = null;
 
-export const sql = neon(connectionString);
+function getClient() {
+  const url = process.env.DATABASE_URL;
+  if (!url) {
+    return null;
+  }
+  if (!sqlClient) {
+    sqlClient = neon(url);
+  }
+  return sqlClient;
+}
+
+export const sql = ((strings: TemplateStringsArray, ...values: unknown[]) => {
+  const client = getClient();
+  if (!client) {
+    console.warn('DATABASE_URL is not configured.');
+    return Promise.resolve([]);
+  }
+  return client(strings, ...values);
+}) as unknown as NeonQueryFunction<false, false>;
 
 export interface DbProduct {
   id: string;

@@ -1,13 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getProducts, createProduct } from '@/lib/products';
-
-function checkAuth(request: NextRequest): boolean {
-  const session = request.cookies.get('admin_session')?.value;
-  return session === 'authenticated_sufi1234';
-}
+import { verifyAdminSession } from '@/lib/auth';
 
 export async function GET(request: NextRequest) {
-  if (!checkAuth(request)) {
+  if (!verifyAdminSession(request)) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
@@ -21,7 +17,7 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  if (!checkAuth(request)) {
+  if (!verifyAdminSession(request)) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 

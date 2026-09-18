@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { verifyAdminSession } from '@/lib/auth';
 
 export async function GET(request: NextRequest) {
-  const session = request.cookies.get('admin_session')?.value;
-  const isAuthenticated = session === 'authenticated_sufi1234';
+  const isAuthenticated = verifyAdminSession(request);
   return NextResponse.json({ authenticated: isAuthenticated });
 }
