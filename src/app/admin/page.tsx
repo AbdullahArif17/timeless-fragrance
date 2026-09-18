@@ -251,7 +251,7 @@ export default function AdminPage() {
             <div>
               <input
                 type="password"
-                placeholder="Enter master password"
+                placeholder="Enter password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
