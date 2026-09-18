@@ -66,10 +66,10 @@ export function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/60 bg-background/80 backdrop-blur-xl dark:border-gold-500/20 dark:bg-black/80 transition-colors">
-      <div className="container flex h-18 py-3 items-center justify-between relative max-w-7xl">
+      <div className="container flex h-20 py-3 items-center justify-between relative max-w-7xl">
         
         {/* Left Section: Mobile Menu Button & Brand Logo */}
-        <div className="flex items-center gap-2 sm:gap-3">
+        <div className="flex items-center gap-2 sm:gap-3 z-10 flex-shrink-0">
           {/* Mobile Menu Button */}
           <Button
             variant="ghost"
@@ -82,52 +82,54 @@ export function Navbar() {
           </Button>
 
           {/* Brand Logo with Emblem and Gold Typography */}
-          <Link href="/" className="flex items-center gap-2 sm:gap-2.5 group flex-shrink-0">
-            <div className="relative w-8 h-8 sm:w-9 sm:h-9 rounded-full overflow-hidden border border-gold-500/40 group-hover:border-gold-500 shadow-md transition-all duration-300 flex-shrink-0 bg-neutral-900">
+          <Link href="/" className="flex items-center gap-2.5 sm:gap-3 group flex-shrink-0">
+            <div className="relative w-9 h-9 sm:w-10 sm:h-10 rounded-full overflow-hidden border border-gold-500/40 group-hover:border-gold-500 shadow-md transition-all duration-300 flex-shrink-0 bg-neutral-900">
               <Image
                 src="/zaid logo.jpeg"
                 alt="Timeless Collections Logo"
                 fill
                 className="object-cover"
-                sizes="36px"
+                sizes="40px"
                 priority
               />
             </div>
-            <span className="font-heading text-base sm:text-xl md:text-2xl font-bold tracking-wider text-foreground group-hover:text-gold-500 transition-colors whitespace-nowrap">
-              Timeless <span className="hidden min-[400px]:inline">Collections</span>
+            <span className="font-heading text-lg sm:text-xl md:text-2xl font-bold tracking-wider text-foreground group-hover:text-gold-500 transition-colors whitespace-nowrap">
+              Timeless <span className="hidden min-[420px]:inline">Collections</span>
             </span>
           </Link>
         </div>
 
-        {/* Desktop Navigation */}
-        <NavigationMenu className="hidden md:flex flex-1 justify-center">
-          <NavigationMenuList className="gap-2 bg-muted/40 p-1 rounded-full border border-border/60 backdrop-blur-sm">
-            <NavigationMenuItem>
-              <NavigationMenuLink asChild>
-                <Link href="/" className={navLinkClass}>
-                  Home
-                </Link>
-              </NavigationMenuLink>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <NavigationMenuLink asChild>
-                <Link href="/products" className={navLinkClass}>
-                  Collections
-                </Link>
-              </NavigationMenuLink>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <NavigationMenuLink asChild>
-                <Link href="/about-us" className={navLinkClass}>
-                  Our Story
-                </Link>
-              </NavigationMenuLink>
-            </NavigationMenuItem>
-          </NavigationMenuList>
-        </NavigationMenu>
+        {/* Center Section: Desktop Navigation (Centered) */}
+        <div className="hidden md:flex absolute left-1/2 -translate-x-1/2 items-center justify-center pointer-events-auto">
+          <NavigationMenu>
+            <NavigationMenuList className="gap-1.5 lg:gap-2 bg-muted/40 p-1.5 rounded-full border border-border/60 backdrop-blur-sm">
+              <NavigationMenuItem>
+                <NavigationMenuLink asChild>
+                  <Link href="/" className={navLinkClass}>
+                    Home
+                  </Link>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <NavigationMenuLink asChild>
+                  <Link href="/products" className={navLinkClass}>
+                    Collections
+                  </Link>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <NavigationMenuLink asChild>
+                  <Link href="/about-us" className={navLinkClass}>
+                    Our Story
+                  </Link>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+            </NavigationMenuList>
+          </NavigationMenu>
+        </div>
 
         {/* Right Section (Search, Cart, Dark Toggle) */}
-        <div className="flex items-center gap-2 sm:gap-3 md:flex-1 md:justify-end">
+        <div className="flex items-center gap-2 sm:gap-3 z-10 flex-shrink-0">
           <div className="hidden md:flex items-center">
             <SearchBar />
           </div>

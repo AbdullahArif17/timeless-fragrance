@@ -67,7 +67,7 @@ export function SearchBar() {
   };
 
   return (
-    <div ref={containerRef} className="relative w-full md:w-72">
+    <div ref={containerRef} className="relative w-full md:w-56 lg:w-72">
       <div className="relative flex items-center">
         <input
           type="text"
