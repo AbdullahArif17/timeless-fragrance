@@ -1,39 +1,7 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { client } from '@/sanity/lib/client';
+import { getProductBySlug } from '@/lib/products';
 import ProductDetails from './ProductDetails';
-
-interface SanityProduct {
-  _id: string;
-  name: string;
-  price?: number;
-  description?: string;
-  image?: string;
-  slug?: { current: string };
-  hasDiscount?: boolean;
-  discountPercent?: number;
-  category?: { name: string; slug: string };
-}
-
-async function getProduct(slug: string): Promise<SanityProduct | null> {
-  const query = `*[_type == "product" && slug.current == $slug][0] {
-    _id,
-    name,
-    price,
-    description,
-    slug,
-    hasDiscount,
-    discountPercent,
-    "image": image.asset->url,
-    category->{name, "slug": slug.current}
-  }`;
-  try {
-    return await client.fetch<SanityProduct | null>(query, { slug });
-  } catch (error) {
-    console.error("Error fetching product:", error);
-    return null;
-  }
-}
 
 export async function generateMetadata({
   params,
@@ -41,12 +9,12 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const product = await getProduct(slug);
+  const product = await getProductBySlug(slug);
 
   if (!product) {
     return {
-      title: 'Product Not Found | Timeless Collections',
-      description: 'The requested product could not be found.',
+      title: 'Fragrance Not Found | Timeless Collections',
+      description: 'The requested fragrance could not be found.',
     };
   }
 
@@ -67,11 +35,25 @@ export default async function ProductPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const product = await getProduct(slug);
+  const product = await getProductBySlug(slug);
 
   if (!product) {
     notFound();
   }
 
-  return <ProductDetails product={product} />;
+  return (
+    <ProductDetails
+      product={{
+        _id: product.id,
+        name: product.name,
+        price: Number(product.price),
+        description: product.description || undefined,
+        image: product.image,
+        slug: { current: product.slug },
+        hasDiscount: product.has_discount,
+        discountPercent: Number(product.discount_percent),
+        category: product.category_name ? { name: product.category_name, slug: product.category_name.toLowerCase() } : undefined,
+      }}
+    />
+  );
 }

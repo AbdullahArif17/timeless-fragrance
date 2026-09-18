@@ -6,7 +6,6 @@ import { Search, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
-import { client } from '@/sanity/lib/client';
 
 interface ProductSuggestion {
   _id: string;
@@ -17,15 +16,10 @@ interface ProductSuggestion {
 }
 
 async function searchProducts(searchTerm: string): Promise<ProductSuggestion[]> {
-  const groq = `*[_type=="product" && name match $searchTerm]{
-    _id,
-    name,
-    slug,
-    price,
-    "image": image.asset->url
-  }[0...5]`;
   try {
-    return await client.fetch(groq, { searchTerm: `*${searchTerm}*` });
+    const res = await fetch(`/api/search?q=${encodeURIComponent(searchTerm)}`);
+    const data = await res.json();
+    return data.results || [];
   } catch (error) {
     console.error("Search query error:", error);
     return [];
@@ -136,7 +130,7 @@ export function SearchBar() {
                 </span>
                 {product.price && (
                   <span className="text-xs text-muted-foreground">
-                    Rs. {product.price.toFixed(2)}
+                    Rs. {Number(product.price).toFixed(2)}
                   </span>
                 )}
               </div>

@@ -7,7 +7,6 @@ import Image from 'next/image';
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Search } from 'lucide-react';
-import { client } from '@/sanity/lib/client';
 
 interface Product {
   _id: string;
@@ -29,39 +28,17 @@ export default function SearchResult() {
   useEffect(() => {
     async function fetchProducts() {
       setIsLoading(true);
-      let groq: string;
-      const params: Record<string, string> = {};
-
-      if (query.trim().length > 0) {
-        groq = `*[_type=="product" && name match $searchTerm]{
-          _id,
-          name,
-          slug,
-          price,
-          description,
-          hasDiscount,
-          discountPercent,
-          "image": image.asset->url
-        }[0...20]`;
-        params.searchTerm = `*${query.trim()}*`;
-      } else {
-        groq = `*[_type=="product"]{
-          _id,
-          name,
-          slug,
-          price,
-          description,
-          hasDiscount,
-          discountPercent,
-          "image": image.asset->url
-        }[0...20]`;
-      }
-
       try {
-        const results = await client.fetch<Product[]>(groq, params);
-        setProducts(results);
+        const res = await fetch(`/api/search?q=${encodeURIComponent(query)}`);
+        if (res.ok) {
+          const data = await res.json();
+          setProducts(data.results || []);
+        } else {
+          setProducts([]);
+        }
       } catch (error) {
         console.error("Failed to fetch search results:", error);
+        setProducts([]);
       } finally {
         setIsLoading(false);
       }

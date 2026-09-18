@@ -9,24 +9,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Sparkles, ArrowRight } from "lucide-react";
-import { client } from "@/sanity/lib/client";
-
-interface Product {
-  _id: string;
-  name: string;
-  slug: { current: string };
-  price?: number;
-  description?: string;
-  image?: string;
-  hasDiscount?: boolean;
-  discountPercent?: number;
-  category?: { name: string; slug: string };
-}
-
-interface Category {
-  name: string;
-  slug: string;
-}
+import { getProducts, getCategories } from "@/lib/products";
 
 export default async function ProductsPage({
   searchParams,
@@ -35,45 +18,10 @@ export default async function ProductsPage({
 }) {
   const { category } = await searchParams;
 
-  const productGroq = category
-    ? `*[_type=="product" && category->slug.current == $category]{
-    _id,
-    name,
-    slug,
-    price,
-    description,
-    hasDiscount,
-    discountPercent,
-    "image": image.asset->url,
-    category->{name, "slug": slug.current}
-  }`
-    : `*[_type=="product"]{
-    _id,
-    name,
-    slug,
-    price,
-    description,
-    hasDiscount,
-    discountPercent,
-    "image": image.asset->url,
-    category->{name, "slug": slug.current}
-  }`;
-
-  const categoriesGroq = `*[_type=="category"]{name, "slug": slug.current}`;
-
-  let products: Product[] = [];
-  let categories: Category[] = [];
-
-  try {
-    const [productsData, categoriesData] = await Promise.all([
-      client.fetch<Product[]>(productGroq, category ? { category } : {}),
-      client.fetch<Category[]>(categoriesGroq),
-    ]);
-    products = productsData;
-    categories = categoriesData;
-  } catch (error) {
-    console.error("Error fetching data:", error);
-  }
+  const [products, categories] = await Promise.all([
+    getProducts({ category }),
+    getCategories(),
+  ]);
 
   return (
     <div className="min-h-screen bg-background py-12 md:py-20">
@@ -109,9 +57,9 @@ export default async function ProductsPage({
             </Button>
           </Link>
           {categories.map((cat) => {
-            const isActive = category === cat.slug;
+            const isActive = category?.toLowerCase() === cat.slug.toLowerCase() || category?.toLowerCase() === cat.name.toLowerCase();
             return (
-              <Link key={cat.slug} href={`/products?category=${cat.slug}`}>
+              <Link key={cat.id} href={`/products?category=${cat.slug}`}>
                 <Button
                   variant={isActive ? "default" : "outline"}
                   className={`rounded-full px-6 py-2.5 text-sm font-semibold transition-all duration-300 ${
@@ -140,14 +88,15 @@ export default async function ProductsPage({
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {products.map((product) => {
+              const price = Number(product.price);
               const discountedPrice =
-                product.hasDiscount && product.discountPercent && product.price
-                  ? (product.price * (1 - product.discountPercent / 100)).toFixed(2)
+                product.has_discount && product.discount_percent && price
+                  ? (price * (1 - Number(product.discount_percent) / 100)).toFixed(2)
                   : null;
 
               return (
                 <Card
-                  key={product._id}
+                  key={product.id}
                   className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-border/70 dark:border-gold-500/20 bg-card hover:border-gold-500/50 transition-all duration-500 hover:shadow-2xl hover:shadow-gold-500/10 hover:-translate-y-1.5"
                 >
                   <div>
@@ -170,15 +119,15 @@ export default async function ProductsPage({
 
                         {/* Top Badges */}
                         <div className="absolute top-3.5 left-3.5 right-3.5 flex items-center justify-between pointer-events-none">
-                          {product.category?.name ? (
+                          {product.category_name ? (
                             <span className="px-3 py-1 rounded-full text-[11px] font-semibold tracking-wider uppercase bg-black/60 backdrop-blur-md text-gold-300 border border-white/10">
-                              {product.category.name}
+                              {product.category_name}
                             </span>
                           ) : <span />}
 
-                          {product.hasDiscount && product.discountPercent ? (
+                          {product.has_discount && product.discount_percent ? (
                             <span className="px-2.5 py-1 rounded-full text-[11px] font-bold bg-green-600/90 text-white shadow-md">
-                              {product.discountPercent}% OFF
+                              {product.discount_percent}% OFF
                             </span>
                           ) : null}
                         </div>
@@ -198,24 +147,22 @@ export default async function ProductsPage({
                       )}
 
                       {/* Pricing */}
-                      {product.price !== undefined && (
-                        <div className="mt-4 flex items-baseline gap-2.5">
-                          {discountedPrice ? (
-                            <>
-                              <span className="text-2xl font-bold text-green-600 dark:text-green-400">
-                                Rs. {discountedPrice}
-                              </span>
-                              <span className="text-sm line-through text-muted-foreground">
-                                Rs. {product.price.toFixed(2)}
-                              </span>
-                            </>
-                          ) : (
-                            <span className="text-2xl font-bold text-foreground">
-                              Rs. {product.price.toFixed(2)}
+                      <div className="mt-4 flex items-baseline gap-2.5">
+                        {discountedPrice ? (
+                          <>
+                            <span className="text-2xl font-bold text-green-600 dark:text-green-400">
+                              Rs. {discountedPrice}
                             </span>
-                          )}
-                        </div>
-                      )}
+                            <span className="text-sm line-through text-muted-foreground">
+                              Rs. {price.toFixed(2)}
+                            </span>
+                          </>
+                        ) : (
+                          <span className="text-2xl font-bold text-foreground">
+                            Rs. {price.toFixed(2)}
+                          </span>
+                        )}
+                      </div>
                     </CardContent>
                   </div>
 
@@ -225,7 +172,7 @@ export default async function ProductsPage({
                       className="w-full py-6 font-semibold text-sm bg-neutral-900 text-white hover:bg-gold-500 hover:text-black dark:bg-neutral-800 dark:text-white dark:hover:bg-gold-500 dark:hover:text-black rounded-xl transition-all duration-300 shadow-sm flex items-center justify-center gap-2 group/btn"
                       asChild
                     >
-                      <Link href={`/products/${product.slug.current}`}>
+                      <Link href={`/products/${product.slug}`}>
                         <span>View Fragrance Details</span>
                         <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover/btn:translate-x-1" />
                       </Link>
