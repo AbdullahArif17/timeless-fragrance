@@ -1,8 +1,6 @@
-'use client';
-
-import { useParams } from 'next/navigation';
-import { useState, useEffect } from 'react';
-import { createClient } from '@sanity/client';
+import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
+import { client } from '@/sanity/lib/client';
 import ProductDetails from './ProductDetails';
 
 interface SanityProduct {
@@ -17,13 +15,6 @@ interface SanityProduct {
   category?: { name: string; slug: string };
 }
 
-const client = createClient({
-  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
-  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || 'production',
-  apiVersion: '2023-05-03',
-  useCdn: true,
-});
-
 async function getProduct(slug: string): Promise<SanityProduct | null> {
   const query = `*[_type == "product" && slug.current == $slug][0] {
     _id,
@@ -37,40 +28,50 @@ async function getProduct(slug: string): Promise<SanityProduct | null> {
     category->{name, "slug": slug.current}
   }`;
   try {
-    return await client.fetch(query, { slug });
+    return await client.fetch<SanityProduct | null>(query, { slug });
   } catch (error) {
     console.error("Error fetching product:", error);
     return null;
   }
 }
 
-export default function ProductPage() {
-  const params = useParams();
-  const slug = params?.slug as string;
-  const [product, setProduct] = useState<SanityProduct | null>(null);
-  const [loading, setLoading] = useState(true);
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const product = await getProduct(slug);
 
-  useEffect(() => {
-    if (!slug) return;
-    getProduct(slug).then((data) => {
-      setProduct(data);
-      setLoading(false);
-    });
-  }, [slug]);
+  if (!product) {
+    return {
+      title: 'Product Not Found | Timeless Collections',
+      description: 'The requested product could not be found.',
+    };
+  }
 
-  if (loading)
-    return (
-      <div className="container py-20 text-center">
-        <p className="text-3xl font-bold">Loading...</p>
-      </div>
-    );
+  return {
+    title: `${product.name} | Timeless Collections`,
+    description: product.description || `Discover ${product.name} at Timeless Collections.`,
+    openGraph: {
+      title: product.name,
+      description: product.description || undefined,
+      images: product.image ? [{ url: product.image }] : [],
+    },
+  };
+}
 
-  if (!product)
-    return (
-      <div className="container py-20 text-center">
-        <p className="text-xl">Product not found</p>
-      </div>
-    );
+export default async function ProductPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+  const product = await getProduct(slug);
+
+  if (!product) {
+    notFound();
+  }
 
   return <ProductDetails product={product} />;
 }

@@ -7,6 +7,8 @@ import ThemeProvider from '@/components/ThemeProvider';
 import { ReactNode } from 'react';
 import { CartProvider } from './cart/CartContext';
 import Banner from '@/components/Banner'; 
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 // Fonts
 const sans = Inter({
@@ -24,9 +26,9 @@ const heading = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: 'Timeless Collections',
-  description: 'Luxury collections for you',
-  keywords: ['luxury collections', 'timeless style', 'premium products', 'fashion', 'accessories'],
+  title: 'Timeless Collections | Luxury Fragrances & Artisanal Perfumes',
+  description: 'Curated luxury fragrances, long-lasting artisanal perfume oils, and exquisite collections available all across Pakistan with Cash on Delivery.',
+  keywords: ['luxury fragrances', 'timeless collections', 'perfumes pakistan', 'artisanal perfumes', 'luxury scents', 'cash on delivery perfumes'],
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
@@ -34,14 +36,17 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html lang="en" className={`${sans.variable} ${heading.variable}`} suppressHydrationWarning>
       <body className="min-h-screen bg-background font-sans antialiased">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <CartProvider>
             <div className="flex flex-col min-h-screen">
               <Banner />
               <Navbar />
-            <main className="flex-1">
-              <CartProvider>{children}</CartProvider>
-            </main>
-            <Footer />
-          </div>
+              <main className="flex-1">
+                {children}
+              </main>
+              <Footer />
+            </div>
+            <ToastContainer position="bottom-right" autoClose={3000} theme="colored" hideProgressBar={false} />
+          </CartProvider>
         </ThemeProvider>
       </body>
     </html>

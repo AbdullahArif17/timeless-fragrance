@@ -1,0 +1,68 @@
+[
+  {
+    "id": "093e1f15-6857-4bb8-b925-abdeba41d348",
+    "name": "Love Drop",
+    "slug": "love-drop",
+    "price": 2400,
+    "description": "Perfume For Womens, 50 ml.",
+    "hasDiscount": false,
+    "discountPercent": 30,
+    "image": "https://cdn.sanity.io/images/sy04990b/production/071be3c74dfc7a4655169077ffdfe7e8ffd98a9f-1127x1600.jpg",
+    "category": "Women"
+  },
+  {
+    "id": "0f35b265-b2c2-4a8f-a361-b8ee744ab1b3",
+    "name": "Flora",
+    "slug": "flora",
+    "price": 2400,
+    "description": "Perfume for Womens, 50 ml.",
+    "hasDiscount": false,
+    "discountPercent": 30,
+    "image": "https://cdn.sanity.io/images/sy04990b/production/287f08815a7e989e1434abfa5324490cb061f618-1127x1600.jpg",
+    "category": "Women"
+  },
+  {
+    "id": "5498337b-c187-4ebb-85cb-76d7b284638e",
+    "name": "Elegant",
+    "slug": "elegant",
+    "price": 2300,
+    "description": "Perfume For Mens, 50 ml.",
+    "hasDiscount": false,
+    "discountPercent": 30,
+    "image": "https://cdn.sanity.io/images/sy04990b/production/19afc00a25201b693d8adcb5fa4b89ac83e9516d-1127x1600.jpg",
+    "category": "Men"
+  },
+  {
+    "id": "a4af7e00-cecf-4beb-8b24-c543289c644c",
+    "name": "Just Be You",
+    "slug": "just-be-you",
+    "price": 2200,
+    "description": "Perfume For Mens & Womens, 50 ml.",
+    "hasDiscount": false,
+    "discountPercent": 30,
+    "image": "https://cdn.sanity.io/images/sy04990b/production/b2108ff75914fe541bdcd7c638ab3f1ffe52bc1b-1127x1600.jpg",
+    "category": "Unisex"
+  },
+  {
+    "id": "ba3d9dbc-4a99-405e-95a2-3a26a81dffff",
+    "name": "Magic Dreams",
+    "slug": "magic-dreams",
+    "price": 2000,
+    "description": "Perfume For Mens, 50 ml.",
+    "hasDiscount": false,
+    "discountPercent": 30,
+    "image": "https://cdn.sanity.io/images/sy04990b/production/35433834177ed632e12470512c835a2b0c907a78-1127x1600.jpg",
+    "category": "Men"
+  },
+  {
+    "id": "cc794594-184d-469a-ba1f-8e4de86648bb",
+    "name": "Passion",
+    "slug": "passion",
+    "price": 2500,
+    "description": "Perfume For Mens, 50 ml.",
+    "hasDiscount": false,
+    "discountPercent": 30,
+    "image": "https://cdn.sanity.io/images/sy04990b/production/f0a07cf63e102acf3d9f5953c46563f8135a7268-1127x1600.jpg",
+    "category": "Men"
+  }
+]

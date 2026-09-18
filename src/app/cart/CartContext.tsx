@@ -1,6 +1,7 @@
 'use client';
 
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
+import { toast } from "react-toastify";
 
 // Cart Item interface for a luxury store
 interface CartItem {
@@ -26,18 +27,28 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 export function CartProvider({ children }: { children: ReactNode }) {
   const [cart, setCart] = useState<CartItem[]>([]);
 
+  const [isLoaded, setIsLoaded] = useState(false);
+
   // Load cart from localStorage on first render
   useEffect(() => {
-    const savedCart = localStorage.getItem("cart");
-    if (savedCart) {
-      setCart(JSON.parse(savedCart));
+    try {
+      const savedCart = localStorage.getItem("cart");
+      if (savedCart) {
+        setCart(JSON.parse(savedCart));
+      }
+    } catch (error) {
+      console.error("Failed to load cart from localStorage:", error);
+    } finally {
+      setIsLoaded(true);
     }
   }, []);
 
-  // Save cart to localStorage whenever it changes
+  // Save cart to localStorage whenever it changes, once initialized
   useEffect(() => {
-    localStorage.setItem("cart", JSON.stringify(cart));
-  }, [cart]);
+    if (isLoaded) {
+      localStorage.setItem("cart", JSON.stringify(cart));
+    }
+  }, [cart, isLoaded]);
 
   const addToCart = (item: CartItem) => {
     setCart((prevCart) => {
@@ -49,7 +60,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       }
       return [...prevCart, { ...item, quantity: 1 }];
     });
-    alert("Added to cart successfully!");
+    toast.success(`${item.name} added to cart!`);
   };
 
   const updateQuantity = (id: string, quantity: number) => {
@@ -61,8 +72,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
   };
 
   const removeFromCart = (id: string) => {
+    const itemToRemove = cart.find((item) => item.id === id);
     setCart((prevCart) => prevCart.filter((item) => item.id !== id));
-    alert("Removed from cart successfully!");
+    toast.info(itemToRemove ? `${itemToRemove.name} removed from cart.` : "Item removed from cart.");
   };
 
   const clearCart = () => {
@@ -85,7 +97,14 @@ export function CartProvider({ children }: { children: ReactNode }) {
 export function useCart() {
   const context = useContext(CartContext);
   if (!context) {
-    throw new Error("useCart must be used within a CartProvider");
+    return {
+      cart: [],
+      addToCart: () => {},
+      updateQuantity: () => {},
+      removeFromCart: () => {},
+      clearCart: () => {},
+      calculateTotal: () => 0,
+    };
   }
   return context;
 }
